@@ -16,7 +16,10 @@ import { STACK } from "@/lib/content";
 
 const CV = "/berkay-koklu-cv.pdf";
 const GITHUB = "https://github.com/berkaykoklu";
-const LINKEDIN = "https://www.linkedin.com/in/berkay-köklü-4777b41b9/";
+// Percent-encoded rather than literal: browsers encode the non-ASCII form on
+// the way out, but the encoded URL is the one LinkedIn actually published.
+const LINKEDIN =
+  "https://www.linkedin.com/in/berkay-k%C3%B6kl%C3%BC-4777b41b9/";
 const EMAIL = "kokluberkay@gmail.com";
 
 export default function Home() {
