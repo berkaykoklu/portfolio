@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title: "Berkay Köklü — AI Engineer & ML Engineer",
     description: DESCRIPTION,
   },
-  alternates: { canonical: "/", languages: { en: "/", tr: "/tr" } },
+  alternates: { canonical: "/" },
   robots: { index: true, follow: true },
 };
 

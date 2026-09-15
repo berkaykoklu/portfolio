@@ -137,7 +137,9 @@ export default function Portfolio({ locale }: { locale: Locale }) {
   return (
     <>
       <Field />
-      <Nav cv={CV} labels={ui.nav} switchTo={ui.switchTo} switchHref={ui.switchHref} />
+      {/* Turkish is written and typed but not routed yet -- pass ui.switchTo and
+          ui.switchHref back in, and restore app/tr/page.tsx, to publish it. */}
+      <Nav cv={CV} labels={ui.nav} />
       <Hero
         cv={CV}
         github={GITHUB}

@@ -8,8 +8,10 @@ export default function Nav({
 }: {
   cv: string;
   labels: { work: string; open: string; experience: string; research: string; cv: string };
-  switchTo: string;
-  switchHref: string;
+  /** Omitted while Turkish is unpublished: an unset pair renders no button at
+   *  all rather than a link to a route that does not exist. */
+  switchTo?: string;
+  switchHref?: string;
 }) {
   // The bar only earns a border once the page has moved under it.
   const [moved, setMoved] = useState(false);
@@ -46,15 +48,17 @@ export default function Nav({
           ))}
 
           {/* A plain link, not a toggle: each language is its own address, so a
-              Turkish reader can share the page they actually read. */}
-          <a
-            href={switchHref}
-            hrefLang={switchHref === "/tr" ? "tr" : "en"}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-line-ctl bg-lifted px-3 py-1.5 text-[0.82rem] font-medium transition-colors hover:border-brand-deep hover:bg-raised"
-          >
-            <Languages size={13} aria-hidden="true" />
-            {switchTo}
-          </a>
+              reader can share the page they actually read. */}
+          {switchTo && switchHref && (
+            <a
+              href={switchHref}
+              hrefLang={switchHref === "/tr" ? "tr" : "en"}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-line-ctl bg-lifted px-3 py-1.5 text-[0.82rem] font-medium transition-colors hover:border-brand-deep hover:bg-raised"
+            >
+              <Languages size={13} aria-hidden="true" />
+              {switchTo}
+            </a>
+          )}
 
           <a href={cv}
              className="inline-flex items-center gap-1.5 rounded-lg border border-line-ctl bg-lifted px-3 py-1.5 text-[0.82rem] font-medium transition-colors hover:bg-raised">
