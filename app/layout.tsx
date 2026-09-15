@@ -6,13 +6,13 @@ const DESCRIPTION =
   "AI Engineer at Bizzbee building production LLM systems — hybrid retrieval, safety constraints and evaluation pipelines. M.Sc. candidate at Boğaziçi University researching generative world models and offline reinforcement learning.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://berkaykoklu.vercel.app"),
+  metadataBase: new URL("https://berkaykoklu.com"),
   title: "Berkay Köklü — AI Engineer & ML Engineer",
   description: DESCRIPTION,
   openGraph: {
     title: "Berkay Köklü — AI Engineer & ML Engineer",
     description: DESCRIPTION,
-    url: "https://berkaykoklu.vercel.app",
+    url: "https://berkaykoklu.com",
     siteName: "Berkay Köklü",
     locale: "en",
     type: "website",

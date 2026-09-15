@@ -161,7 +161,7 @@ export default function Home() {
               summary="Trained a churn model, checked whether its probabilities mean what they say, then derived the decision threshold from what a retention offer costs rather than defaulting to 0.5."
               detail="Class weighting is the standard reflex for imbalanced labels. It moved AUC by 0.004 and inflated the predicted churn rate from 20.4% to 34.1% — ranking metrics cannot see this, because ranking survives any monotonic distortion of the probabilities, which is why a project reporting only AUC never finds it. Applied to a decision rule, that model spends more than twice as much. The threshold itself is arithmetic: treating a customer pays when p·e·V > C, so the break-even probability is C/(e·V) and the classifier appears nowhere in it. Derived it lands at 0.333, the empirical best is 0.300, and the 0.5 convention leaves 12% of the value behind."
               tech={["Python", "scikit-learn", "Calibration", "Decision theory", "pandas", "NumPy"]}
-              live="https://churn-decisions.vercel.app"
+              live="https://churn-decisions.berkaykoklu.com"
               code="https://github.com/berkaykoklu/churn-decisions"
             />
           </Reveal>
@@ -188,7 +188,7 @@ export default function Home() {
               summary="Audited a real mobile-game experiment with 90,189 players: the significance test, the effect sizes it was equipped to find, and what watching the dashboard would have done to the answer."
               detail="Day-one retention came back not significant, which is routinely read as no difference. It moved 0.59 percentage points, and the smallest effect the sample could reliably detect is 0.93 — the experiment could not tell, which is a different claim and the one the data supports. Week-one retention is significant but clears its detection floor by 0.09pp, thin enough to be worth replicating. Separately, every experiment in the peeking simulation is an A/A test with nothing to find, and a single look reproduces the nominal 5% error rate — that calibration is a test in the suite, because if it failed every other figure from the simulation would be worthless."
               tech={["Python", "NumPy", "pandas", "Hypothesis testing", "Power analysis", "Monte Carlo"]}
-              live="https://experiment-audit.vercel.app"
+              live="https://experiment-audit.berkaykoklu.com"
               code="https://github.com/berkaykoklu/experiment-audit"
             />
           </Reveal>
@@ -215,7 +215,7 @@ export default function Home() {
               summary="Generated sixty ad creatives, scored them four ways automatically, rated all sixty blind, and measured whether the scores agree with the human."
               detail="Thresholds were calibrated before any rating existed, so they could not be tuned toward a result. The best real filter reached rank correlation 0.59 against CLIP's 0.21. Then a control — the identical arithmetic run on a region with no rationale behind it — scored 0.69, which means the best filter was measuring visual calmness rather than ad suitability, and the domain rationale was written after the numbers arrived. That is published as the headline on the project rather than a footnote."
               tech={["PyTorch", "Diffusers", "CLIP", "NumPy", "Next.js"]}
-              live="https://creative-eval.vercel.app"
+              live="https://creative-eval.berkaykoklu.com"
               code="https://github.com/berkaykoklu/creative-eval"
             />
           </Reveal>
@@ -238,7 +238,7 @@ export default function Home() {
               summary="A LangGraph agent that turns a ticker into a research note where every claim carries the filing passage behind it and every figure comes from the company's own filed data."
               detail="The model never writes a number: it names a metric, and code looks that name up in the company's XBRL data and attaches the real tag, period and value. A deterministic checker — not a model judging a model — runs at generation time and again as the CI gate; a claim whose citation does not resolve is rewritten twice and then dropped rather than shipped. Chapter boundaries are chosen by a model and cut by code, which is what took the parser from 14 of 20 to nothing wrong across all 20."
               tech={["LangGraph", "Python", "pgvector", "FastAPI", "Opik"]}
-              live="https://equity-research-agent-one.vercel.app"
+              live="https://equity.berkaykoklu.com"
               code="https://github.com/berkaykoklu/equity-research-agent"
             />
           </Reveal>

@@ -1,6 +1,6 @@
 # portfolio
 
-The front door: [berkaykoklu.vercel.app](https://berkaykoklu.vercel.app)
+The front door: [berkaykoklu.com](https://berkaykoklu.com)
 
 A static Next.js page listing the projects, each with a live site to open and
 a repository to read. No server, no database, nothing to keep running.
