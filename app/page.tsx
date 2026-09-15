@@ -141,6 +141,32 @@ export default function Home() {
         <div className="space-y-4">
           <Reveal>
             <CaseStudy
+              category="ML / DECISION SYSTEMS"
+              title="churn-decisions — a probability is not yet a decision"
+              visual={
+                <Comparison
+                  caption="WHAT EACH MODEL SAYS THE CHURN RATE IS, AGAINST 20.4% WHO ACTUALLY LEFT"
+                  scale={40}
+                  reference={{ value: 20.4, label: "the rate that actually occurred" }}
+                  decimals={1}
+                  unit="%"
+                  bars={[
+                    { name: "Plain", value: 19.4, tone: "good" },
+                    { name: "Class-weighted", value: 34.1, tone: "bad" },
+                    { name: "Calibrated", value: 19.4, tone: "good" },
+                  ]}
+                />
+              }
+              headline={{ value: "947 vs 431", caption: "customers sent an offer at the same threshold — from models whose AUC differs by 0.004" }}
+              summary="Trained a churn model, checked whether its probabilities mean what they say, then derived the decision threshold from what a retention offer costs rather than defaulting to 0.5."
+              detail="Class weighting is the standard reflex for imbalanced labels. It moved AUC by 0.004 and inflated the predicted churn rate from 20.4% to 34.1% — ranking metrics cannot see this, because ranking survives any monotonic distortion of the probabilities, which is why a project reporting only AUC never finds it. Applied to a decision rule, that model spends more than twice as much. The threshold itself is arithmetic: treating a customer pays when p·e·V > C, so the break-even probability is C/(e·V) and the classifier appears nowhere in it. Derived it lands at 0.333, the empirical best is 0.300, and the 0.5 convention leaves 12% of the value behind."
+              tech={["Python", "scikit-learn", "Calibration", "Decision theory", "pandas", "NumPy"]}
+              live="https://churn-decisions.vercel.app"
+              code="https://github.com/berkaykoklu/churn-decisions"
+            />
+          </Reveal>
+          <Reveal>
+            <CaseStudy
               category="EXPERIMENTATION / STATISTICS"
               title="experiment-audit — what an A/B test could and could not detect"
               visual={
