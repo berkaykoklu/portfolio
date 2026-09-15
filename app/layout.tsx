@@ -2,10 +2,23 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 
+const DESCRIPTION =
+  "AI Engineer at Bizzbee building production LLM systems — hybrid retrieval, guardrails and evaluation pipelines. M.Sc. candidate at Boğaziçi University researching generative world models and offline reinforcement learning.";
+
 export const metadata: Metadata = {
-  title: "Berkay Köklü",
-  description:
-    "AI Engineer, ML Engineer and Data Scientist. Production AI systems in Python, PyTorch and LangGraph — each one live, and each one measured.",
+  metadataBase: new URL("https://berkaykoklu.vercel.app"),
+  title: "Berkay Köklü — AI Engineer & ML Researcher",
+  description: DESCRIPTION,
+  openGraph: {
+    title: "Berkay Köklü — AI Engineer & ML Researcher",
+    description: DESCRIPTION,
+    url: "https://berkaykoklu.vercel.app",
+    siteName: "Berkay Köklü",
+    locale: "en",
+    type: "website",
+  },
+  twitter: { card: "summary_large_image", title: "Berkay Köklü — AI Engineer & ML Researcher", description: DESCRIPTION },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -16,12 +29,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..700&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
         />
       </head>
-      <body>
-        <main>{children}</main>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
