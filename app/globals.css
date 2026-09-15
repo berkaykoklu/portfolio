@@ -12,10 +12,18 @@
   --bg-raised: #12151a;
   --border: #1c2027;
   --border-lit: #2a3039;
+  /* Buttons need a boundary a reader can actually find. On a near-black ground
+     contrast is compressed -- reaching the 3:1 required for a UI boundary here
+     means a grey line that wrecks the surface, so this lands near 2:1 and the
+     affordance is carried by fill, label and a strong focus ring together. */
+  --border-ctl: #3d4653;
 
   --fg: #f3f4f6;
   --fg-2: #9ba3b0;
-  --fg-3: #6b7380;
+  /* Lifted from #6b7380, which sat at 3.8-4.2 against these surfaces while
+     being used for labels, dates and captions -- all below 18px, so all
+     needing 4.5. */
+  --fg-3: #777f8c;
 
   --accent: #6d8cff;
   --accent-dim: #3a4a86;
@@ -89,10 +97,10 @@ a { color: inherit; text-decoration: none; }
   display: inline-flex; align-items: center; gap: .45rem;
   font-size: .88rem; font-weight: 500; line-height: 1;
   padding: .7rem 1.1rem; border-radius: 7px;
-  border: var(--edge); background: var(--bg-raised); color: var(--fg);
+  border: 1px solid var(--border-ctl); background: #1a1f26; color: var(--fg);
   transition: border-color .15s, background .15s;
 }
-.btn:hover { border-color: var(--border-lit); background: var(--bg-elev); }
+.btn:hover { border-color: #55606f; background: #232a33; }
 .btn.key {
   background: var(--accent); border-color: var(--accent); color: #060810; font-weight: 600;
 }
