@@ -11,11 +11,13 @@
   --paper: #eff1ee;
   --surface: #f9faf8;
   --ink: #16191a;
-  --muted: #6a716e;
+  --muted: #686f6c;
   --rule: #d5dad6;
   --hair: #e4e8e4;
 
-  --reference: #5b7c99;
+  /* Both nudged darker to clear 4.5:1 on the paper ground at body size --
+     they are used for running text, not decoration. */
+  --reference: #50718e;
   --better: #3b7a5b;
   --worse: #a8473a;
 }
@@ -200,3 +202,20 @@ a:hover { text-decoration-color: var(--reference); }
 .contact a { text-decoration-thickness: 1.5px; }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* On a narrow screen the name column would squeeze the track down to a stub,
+   and the bar is the whole point of the block. Stack instead: label over its
+   own full-width track, value alongside. */
+@media (max-width: 30rem) {
+  .bar {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "name name" "track val";
+    gap: .2rem .7rem;
+    margin-bottom: .95rem;
+  }
+  .bar .name { grid-area: name; }
+  .bar .track { grid-area: track; }
+  .bar .val { grid-area: val; }
+  .actions { gap: .9rem; }
+  .roles { gap: 0 1.1rem; }
+}
