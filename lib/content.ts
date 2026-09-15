@@ -1,77 +1,87 @@
-/** Every claim here is checkable against the CV linked on the page. Where the
- *  brief and the CV disagreed, the CV wins: a portfolio that overstates what
- *  the CV says is the one thing a recruiter is guaranteed to catch. */
+/** Everything here is checkable against the CV linked on the page. Where the
+ *  brief and the CV disagreed the CV wins: a portfolio that outruns its own CV
+ *  is the one thing a recruiter is certain to catch. */
 
-export const PRODUCTION = [
+export type Project = {
+  no: string;
+  title: string;
+  problem: string;
+  approach: string;
+  impact: string;
+  tech: string[];
+  live?: string;
+  code?: string;
+};
+
+export const PRODUCTION: Project[] = [
   {
     no: "01",
     title: "Hybrid retrieval for a multi-tenant support platform",
     problem:
-      "Dense vector search retrieves on meaning, so it paraphrases well and misses exact tokens — order numbers, SKUs, proper nouns. Keyword search has the opposite failure. Customers ask using both at once, across several languages.",
+      "Dense vector search retrieves on meaning, so it handles paraphrase and misses exact tokens — order numbers, SKUs, product names. Keyword search fails the other way. Customers use both in the same sentence, in several languages.",
     approach:
-      "Combined dense retrieval with keyword-based retrieval and merged the result sets, tuned against multilingual document collections rather than a single-language benchmark.",
+      "Combined dense retrieval with keyword search and merged the result sets, tuned against multilingual collections rather than a single-language benchmark. Retrieval is scoped per tenant, since one deployment serves many.",
     impact:
-      "More relevant answers on queries that either method alone handled badly, on a platform serving multiple tenants from one deployment.",
-    tech: ["Python", "RAG", "Vector Search", "Semantic Retrieval", "LangChain"],
+      "Relevant answers on the queries either method alone handled badly, across a platform serving multiple tenants from one system.",
+    tech: ["Python", "RAG", "Vector search", "Semantic retrieval", "LangChain"],
   },
   {
     no: "02",
     title: "Safety constraints and PII anonymisation on model output",
     problem:
-      "A model with access to customer records will repeat them. Moderation cannot be one fixed rule either, because tenants have different tolerances for what may be said and stored.",
+      "A model with access to customer records will repeat them. Moderation cannot be one fixed rule either — tenants differ in what may be said and stored.",
     approach:
-      "Built content moderation and personal-data anonymisation into the output path, with constraints configurable per deployment rather than hard-coded.",
+      "Built moderation and personal-data anonymisation into the output path itself, with constraints configurable per deployment rather than hard-coded, so the rule changes without the pipeline changing.",
     impact:
-      "Unsafe and identifying content is caught before a response reaches a user, on a path every answer travels.",
+      "Unsafe and identifying content is caught before a response reaches a user, on the path every single answer travels.",
     tech: ["Python", "Guardrails", "PII detection", "FastAPI"],
   },
   {
     no: "03",
     title: "Document ingestion and chunking",
     problem:
-      "Retrieval quality is decided before retrieval runs. Documents arrive structured and unstructured, and a chunk that splits mid-argument retrieves as noise no matter how good the search is.",
+      "Retrieval quality is decided before retrieval runs. Sources arrive structured and unstructured, and a chunk that splits mid-argument comes back as noise however good the search is.",
     approach:
-      "Built ingestion and chunking pipelines for both kinds of source, shaping chunks so retrieved context stays coherent.",
-    impact:
-      "Accurate, context-aware retrieval over collections that mix formats.",
+      "Built ingestion and chunking pipelines for both kinds of source, shaping chunk boundaries so retrieved context stays coherent instead of arriving as fragments.",
+    impact: "Accurate, context-aware retrieval over collections that mix formats.",
     tech: ["Python", "Document parsing", "Embeddings", "MongoDB"],
   },
   {
     no: "04",
     title: "Evaluation pipelines and feedback loops",
     problem:
-      "Without measurement, a change to a prompt or a retriever is a guess. Production behaviour drifts and nobody can say in which direction.",
+      "Without measurement, changing a prompt or a retriever is a guess. Production behaviour drifts and nobody can say in which direction.",
     approach:
-      "Built evaluation pipelines and feedback loops that quantify model behaviour, so iterations are judged against numbers rather than impressions.",
+      "Built evaluation pipelines and feedback loops that quantify model behaviour in production, so each iteration is judged against numbers rather than impressions.",
     impact:
-      "Model behaviour in production is measured and improved deliberately rather than anecdotally.",
+      "Model behaviour is measured and improved deliberately rather than anecdotally.",
     tech: ["Python", "LLM evaluation", "Feedback loops"],
   },
 ];
 
-export const OPEN_SOURCE = [
+export const OPEN_SOURCE: Project[] = [
   {
     no: "05",
     title: "creative-eval — do automatic quality filters agree with a human?",
     problem:
-      "A model generates sixty mobile-game ad creatives in ten minutes for nothing. Choosing which deserves ad spend is the part that costs something.",
+      "A model generates sixty mobile-game ad creatives in ten minutes for nothing. Deciding which deserve ad spend is the part that costs something.",
     approach:
-      "Four automatic filters — CLIP prompt adherence, brand colour, button-area clarity, distinctiveness — then sixty images rated blind and the two compared. Thresholds were calibrated before any rating existed, so they could not be tuned toward a result.",
+      "Four automatic filters — CLIP prompt adherence, brand colour, button-area clarity, distinctiveness — then sixty images rated blind and the two compared with rank correlation. Thresholds were calibrated before any rating existed, so they could not be tuned toward a result.",
     impact:
-      "Five lines of arithmetic beat a 600 MB vision model. Then a control running the same arithmetic on a region with no rationale beat everything, showing the best filter measured calmness rather than ad suitability. Published as the headline.",
+      "Five lines of arithmetic beat a 600 MB vision model. Then a control running the same arithmetic on a region with no rationale behind it beat everything — showing the best filter measured calmness, not ad suitability. Published as the headline rather than a footnote.",
     tech: ["PyTorch", "Diffusers", "CLIP", "NumPy", "Next.js"],
     live: "https://creative-eval.vercel.app",
     code: "https://github.com/berkaykoklu/creative-eval",
   },
   {
     no: "06",
-    title: "equity-research-agent — research notes that cannot cite what does not exist",
+    title: "equity-research-agent — notes that cannot cite what does not exist",
     problem:
-      "Language models are fluent about company financials and confidently wrong about the figures. A note nobody can check is worth nothing.",
+      "Language models are fluent about company financials and confidently wrong about the figures. A research note nobody can check is worth nothing.",
     approach:
-      "A LangGraph agent drafts five sections in parallel; every claim carries the filing passage behind it and every figure is read from the company's own XBRL data, never written by the model. A deterministic checker — not a model judging a model — runs at generation time and again as the CI gate.",
+      "A LangGraph agent drafts five sections in parallel. Every claim carries the filing passage behind it, every figure is read from the company's own XBRL data and never written by the model, and a deterministic checker — not a model judging a model — runs both at generation time and as the CI gate.",
     impact:
-      "A claim whose citation does not resolve is rewritten twice and then dropped rather than shipped. Across twenty annual reports the parser extracted nothing wrong, against 14 of 20 for the regex version it replaced.",
+      "A claim whose citation does not resolve is rewritten twice, then dropped rather than shipped. Across twenty annual reports the parser extracted nothing wrong, against 14 of 20 for the regex version it replaced.",
     tech: ["LangGraph", "Python", "pgvector", "FastAPI", "Opik"],
     live: "https://equity-research-agent-one.vercel.app",
     code: "https://github.com/berkaykoklu/equity-research-agent",
@@ -95,17 +105,13 @@ export const JOBS = [
     when: "Feb 2024 — Jan 2025",
     role: "Startech Intern",
     org: "Intertech",
-    points: [
-      "SQL Server administration: cluster installation, monitoring, upgrade and archiving procedures.",
-    ],
+    points: ["SQL Server administration: cluster installation, monitoring, upgrade and archiving."],
   },
   {
     when: "Jun — Oct 2023",
     role: "Software Support Intern",
     org: "Sendeo",
-    points: [
-      "Diagnosed production database issues across SQL, Kibana and Azure.",
-    ],
+    points: ["Diagnosed production database issues across SQL, Kibana and Azure."],
   },
   {
     when: "Jan 2022 — Jul 2023",
@@ -115,18 +121,27 @@ export const JOBS = [
   },
 ];
 
-export const RESEARCH_CHAIN = [
-  "Generative models",
-  "Diffusion",
-  "Time-series",
-  "World models",
-  "Offline RL",
-  "Sequential decisions",
+export const RESEARCH = [
+  { name: "Generative models", note: "Learning the distribution rather than a single answer." },
+  { name: "Diffusion", note: "Sampling that stays controllable as it denoises." },
+  { name: "Time-series", note: "Sequences where order and dynamics carry the signal." },
+  { name: "World models", note: "A learned simulator to plan inside." },
+  { name: "Offline RL", note: "Policies learned from logged data, without acting to explore." },
+  { name: "Sequential decisions", note: "The point of all of it." },
 ];
 
 export const STACK = [
-  { group: "AI / ML", items: "Python, PyTorch, scikit-learn, Transformers, Diffusion models, LoRA, Reinforcement learning" },
-  { group: "AI systems", items: "RAG, Hybrid retrieval, Semantic search, Embeddings, Guardrails, LLM evaluation" },
+  {
+    group: "AI / ML",
+    items: "Python, PyTorch, scikit-learn, Transformers, Diffusion models, LoRA, Reinforcement learning",
+  },
+  {
+    group: "AI systems",
+    items: "RAG, Hybrid retrieval, Semantic search, Embeddings, Guardrails, LLM evaluation",
+  },
   { group: "Data", items: "pandas, NumPy, SQL, Analysis and visualisation" },
-  { group: "Backend and infrastructure", items: "FastAPI, MongoDB, Docker, GitHub Actions, Git" },
+  {
+    group: "Backend & infrastructure",
+    items: "FastAPI, MongoDB, Docker, GitHub Actions, Git",
+  },
 ];

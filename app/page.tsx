@@ -1,164 +1,112 @@
-import Pipeline from "./pipeline";
-import { JOBS, OPEN_SOURCE, PRODUCTION, RESEARCH_CHAIN, STACK } from "@/lib/content";
+import { ArrowUpRight, FileText, Mail } from "lucide-react";
+import { GitHubMark, LinkedInMark } from "@/components/BrandIcons";
+import CaseStudy from "@/components/CaseStudy";
+import Hero from "@/components/Hero";
+import Nav from "@/components/Nav";
+import Reveal from "@/components/Reveal";
+import Section from "@/components/Section";
+import { JOBS, OPEN_SOURCE, PRODUCTION, RESEARCH, STACK } from "@/lib/content";
 
 const CV = "/berkay-koklu-cv.pdf";
 const GITHUB = "https://github.com/berkaykoklu";
 const LINKEDIN = "https://www.linkedin.com/in/berkay-köklü-4777b41b9/";
 const EMAIL = "kokluberkay@gmail.com";
 
-type Case = (typeof PRODUCTION)[number] & { live?: string; code?: string };
-
-function CaseStudy({ item }: { item: Case }) {
-  return (
-    <article className="case">
-      <div className="case-top">
-        <span className="case-no">{item.no}</span>
-        <h3>{item.title}</h3>
-        {item.live ? (
-          <span className="tag live">Live</span>
-        ) : (
-          <span className="tag">Production</span>
-        )}
-      </div>
-      <dl className="rows">
-        <div className="row"><dt>Problem</dt><dd>{item.problem}</dd></div>
-        <div className="row"><dt>Approach</dt><dd>{item.approach}</dd></div>
-        <div className="row"><dt>Outcome</dt><dd>{item.impact}</dd></div>
-        <div className="row">
-          <dt>Tech</dt>
-          <dd><span className="techline">{item.tech.map((t) => <span key={t}>{t}</span>)}</span></dd>
-        </div>
-      </dl>
-      {(item.live || item.code) && (
-        <div className="case-links">
-          {item.live && <a className="btn key" href={item.live}>Open it</a>}
-          {item.code && <a className="btn" href={item.code}>Read the code</a>}
-        </div>
-      )}
-    </article>
-  );
-}
-
 export default function Home() {
   return (
     <>
-      <nav className="nav">
-        <div className="shell">
-          <span className="who">Berkay Köklü</span>
-          <div className="links">
-            <a href="#work">Work</a>
-            <a href="#experience" className="hide-sm">Experience</a>
-            <a href="#research" className="hide-sm">Research</a>
-            <a href="#contact">Contact</a>
-            <a className="btn" href={CV}>CV</a>
-          </div>
-        </div>
-      </nav>
+      <Nav cv={CV} />
+      <Hero cv={CV} github={GITHUB} />
 
-      <header className="hero">
-        <div className="shell hero-grid">
-          <div>
-            <h1>Berkay Köklü</h1>
-            <p className="title-pair">
-              AI Engineer <span className="sep" aria-hidden="true" /> ML Researcher
-            </p>
-            <p className="lede">
-              Building production AI systems, and researching how agents learn
-              from generated worlds.
-            </p>
-            <p className="sub">
-              I build and evaluate LLM pipelines end to end — hybrid retrieval,
-              safety constraints, and the evaluation loops that show whether a
-              change actually helped. My research is on constrained generative
-              world models and offline reinforcement learning for sequential
-              decision-making.
-            </p>
-            <div className="cta-row">
-              <a className="btn key" href="#work">View selected work</a>
-              <a className="btn" href={GITHUB}>GitHub</a>
-              <a className="btn" href={CV}>Download CV</a>
-            </div>
-            <div className="creds">
-              <div className="cred">
-                <div className="v">AI Engineer since Jan 2025</div>
-                <div className="l">Bizzbee, production LLM systems</div>
-              </div>
-              <div className="cred">
-                <div className="v">M.Sc. candidate</div>
-                <div className="l">Boğaziçi University, EEE</div>
-              </div>
-              <div className="cred">
-                <div className="v">2 live systems</div>
-                <div className="l">Open source, running now</div>
-              </div>
-            </div>
-          </div>
-          <Pipeline />
+      <Section
+        id="work"
+        title="Production work"
+        lead="LLM systems running for real users at Bizzbee. Open any card for the method."
+      >
+        <div className="space-y-4">
+          {PRODUCTION.map((item, i) => (
+            <Reveal key={item.no} delay={i * 0.05}>
+              <CaseStudy item={item} />
+            </Reveal>
+          ))}
         </div>
-      </header>
+      </Section>
 
-      <section id="work">
-        <div className="shell">
-          <div className="sec-head">
-            <h2>Production work</h2>
-            <p>LLM systems running for real users at Bizzbee.</p>
-          </div>
-          <div className="work">
-            {PRODUCTION.map((item) => <CaseStudy key={item.no} item={item} />)}
-          </div>
+      <Section
+        id="open-source"
+        title="Open source"
+        lead="Both are deployed and the code is public. Each publishes what it measured — and where it failed."
+      >
+        <div className="space-y-4">
+          {OPEN_SOURCE.map((item, i) => (
+            <Reveal key={item.no} delay={i * 0.05}>
+              <CaseStudy item={item} />
+            </Reveal>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      <section id="open-source">
-        <div className="shell">
-          <div className="sec-head">
-            <h2>Open source</h2>
-            <p>
-              Both are deployed and the code is public — open one and use it.
-              Each publishes what it measured and where it failed.
-            </p>
-          </div>
-          <div className="work">
-            {OPEN_SOURCE.map((item) => <CaseStudy key={item.no} item={item} />)}
-          </div>
-        </div>
-      </section>
-
-      <section id="experience">
-        <div className="shell">
-          <div className="sec-head"><h2>Experience</h2></div>
-          <div className="tl">
-            {JOBS.map((job) => (
-              <div className="job" key={job.org}>
-                <div className="when">{job.when}</div>
+      <Section id="experience" title="Experience">
+        <div>
+          {JOBS.map((job, i) => (
+            <Reveal key={job.org} delay={i * 0.04}>
+              <div
+                className={`grid gap-x-6 gap-y-1 py-6 sm:grid-cols-[9rem_1fr] ${
+                  i > 0 ? "border-t border-line" : "pt-0"
+                }`}
+              >
+                <p className="pt-0.5 font-mono text-[0.78rem] text-low tnum">
+                  {job.when}
+                </p>
                 <div>
-                  <h3>{job.role}</h3>
-                  <p className="org">{job.org}</p>
-                  <ul>{job.points.map((p) => <li key={p}>{p}</li>)}</ul>
+                  <h3 className="text-[1rem] font-semibold">{job.role}</h3>
+                  <p className="mb-2.5 text-[0.88rem] text-brand">{job.org}</p>
+                  <ul className="space-y-1.5">
+                    {job.points.map((p) => (
+                      <li
+                        key={p}
+                        className="relative pl-4 text-[0.91rem] leading-relaxed text-mid before:absolute before:left-0 before:top-[0.65em] before:h-1 before:w-1 before:rounded-full before:bg-line-ctl"
+                      >
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
-            ))}
-          </div>
+            </Reveal>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      <section id="research">
-        <div className="shell">
-          <div className="sec-head">
-            <h2>Where I&rsquo;m going next</h2>
-            <p>M.Sc. thesis area, and the line of work leading into it.</p>
-          </div>
-          <div className="chain">
-            {RESEARCH_CHAIN.map((node, i) => (
-              <span key={node} style={{ display: "contents" }}>
-                {i > 0 && <span className="arr" aria-hidden="true">→</span>}
-                <span className={`link-node ${i === RESEARCH_CHAIN.length - 1 ? "end" : ""}`}>
-                  {node}
-                </span>
-              </span>
-            ))}
-          </div>
-          <p style={{ color: "var(--fg-2)", maxWidth: "62ch", fontSize: ".96rem" }}>
+      <Section
+        id="research"
+        title="Where I'm going next"
+        lead="M.Sc. thesis area, and the line of work leading into it."
+      >
+        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {RESEARCH.map((node, i) => (
+            <Reveal key={node.name} delay={i * 0.04}>
+              <div
+                className={`h-full rounded-panel border bg-panel p-4 ${
+                  i === RESEARCH.length - 1
+                    ? "border-brand-deep bg-brand/[0.07]"
+                    : "border-line"
+                }`}
+              >
+                <div className="mb-1.5 flex items-center gap-2">
+                  <span className="font-mono text-[0.68rem] text-brand tnum">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="text-[0.95rem] font-semibold">{node.name}</h3>
+                </div>
+                <p className="text-[0.86rem] leading-relaxed text-mid">{node.note}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal delay={0.1}>
+          <p className="mt-6 max-w-[62ch] text-[0.95rem] leading-relaxed text-mid">
             A world model that generates plausible trajectories lets a policy be
             trained and tested without acting in the real environment — which
             matters most exactly where acting to learn is expensive or unsafe.
@@ -166,50 +114,74 @@ export default function Home() {
             is only useful if it could actually have happened. This is early
             research, not a result.
           </p>
-          <div className="case-links" style={{ borderTop: "none", paddingTop: ".4rem" }}>
-            <a className="btn" href="https://github.com/berkaykoklu/ts-worldmodel-lab">
-              ts-worldmodel-lab — benchmarking harness
-            </a>
-          </div>
-        </div>
-      </section>
+          <a
+            href="https://github.com/berkaykoklu/ts-worldmodel-lab"
+            className="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-line-ctl bg-lifted px-3.5 py-2 text-[0.83rem] font-medium transition-colors hover:bg-raised"
+          >
+            ts-worldmodel-lab — benchmarking harness
+            <ArrowUpRight size={14} aria-hidden="true" />
+          </a>
+        </Reveal>
+      </Section>
 
-      <section id="stack">
-        <div className="shell">
-          <div className="sec-head"><h2>Stack</h2></div>
-          <div className="stack-grid">
-            {STACK.map((col) => (
-              <div className="stack-col" key={col.group}>
-                <h3>{col.group}</h3>
-                <p>{col.items}</p>
-              </div>
-            ))}
-          </div>
+      <Section id="stack" title="Stack">
+        <div className="grid gap-x-8 gap-y-7 sm:grid-cols-2 lg:grid-cols-4">
+          {STACK.map((col, i) => (
+            <Reveal key={col.group} delay={i * 0.04}>
+              <h3 className="mb-2 text-[0.79rem] font-medium text-low">{col.group}</h3>
+              <p className="text-[0.92rem] leading-[1.75] text-mid">{col.items}</p>
+            </Reveal>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      <section id="contact">
-        <div className="shell">
-          <div className="contact-box">
-            <h2>Building an AI team?</h2>
-            <p>
-              I&rsquo;m open to AI engineering, ML engineering and data science
-              roles.
+      <Section id="contact" title="">
+        <Reveal>
+          <div className="rounded-panel border border-line bg-gradient-to-br from-panel to-base p-8 text-center sm:p-12">
+            <h2 className="text-[clamp(1.5rem,3.4vw,2rem)] font-semibold tracking-[-0.03em]">
+              Building an AI team?
+            </h2>
+            <p className="mx-auto mt-2 max-w-[36ch] text-mid">
+              Open to AI engineering, ML engineering and data science roles.
             </p>
-            <div className="contact-row">
-              <a className="btn key" href={`mailto:${EMAIL}`}>{EMAIL}</a>
-              <a className="btn" href={LINKEDIN}>LinkedIn</a>
-              <a className="btn" href={GITHUB}>GitHub</a>
-              <a className="btn" href={CV}>CV</a>
+            <div className="mt-7 flex flex-wrap justify-center gap-2.5">
+              <a
+                href={`mailto:${EMAIL}`}
+                className="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-[0.88rem] font-semibold text-[#060810] transition-colors hover:bg-brand-lit"
+              >
+                <Mail size={15} aria-hidden="true" />
+                {EMAIL}
+              </a>
+              <a
+                href={LINKEDIN}
+                className="inline-flex items-center gap-2 rounded-lg border border-line-ctl bg-lifted px-4 py-2.5 text-[0.88rem] font-medium transition-colors hover:bg-raised"
+              >
+                <LinkedInMark />
+                LinkedIn
+              </a>
+              <a
+                href={GITHUB}
+                className="inline-flex items-center gap-2 rounded-lg border border-line-ctl bg-lifted px-4 py-2.5 text-[0.88rem] font-medium transition-colors hover:bg-raised"
+              >
+                <GitHubMark />
+                GitHub
+              </a>
+              <a
+                href={CV}
+                className="inline-flex items-center gap-2 rounded-lg border border-line-ctl bg-lifted px-4 py-2.5 text-[0.88rem] font-medium transition-colors hover:bg-raised"
+              >
+                <FileText size={15} aria-hidden="true" />
+                CV
+              </a>
             </div>
           </div>
-        </div>
-      </section>
+        </Reveal>
+      </Section>
 
-      <footer>
-        <div className="shell" style={{ display: "flex", justifyContent: "space-between", width: "100%", flexWrap: "wrap", gap: ".5rem" }}>
+      <footer className="relative z-10 border-t border-line">
+        <div className="mx-auto flex w-full max-w-6xl flex-wrap justify-between gap-2 px-6 py-8 text-[0.82rem] text-low">
           <span>İstanbul, Turkey</span>
-          <span>Every figure on this page is checkable in the linked CV or repository.</span>
+          <span>Every figure here is checkable in the linked CV or repository.</span>
         </div>
       </footer>
     </>

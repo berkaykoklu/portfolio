@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 const DESCRIPTION =
-  "AI Engineer at Bizzbee building production LLM systems — hybrid retrieval, guardrails and evaluation pipelines. M.Sc. candidate at Boğaziçi University researching generative world models and offline reinforcement learning.";
+  "AI Engineer at Bizzbee building production LLM systems — hybrid retrieval, safety constraints and evaluation pipelines. M.Sc. candidate at Boğaziçi University researching generative world models and offline reinforcement learning.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://berkaykoklu.vercel.app"),
@@ -17,7 +17,11 @@ export const metadata: Metadata = {
     locale: "en",
     type: "website",
   },
-  twitter: { card: "summary_large_image", title: "Berkay Köklü — AI Engineer & ML Researcher", description: DESCRIPTION },
+  twitter: {
+    card: "summary_large_image",
+    title: "Berkay Köklü — AI Engineer & ML Researcher",
+    description: DESCRIPTION,
+  },
   robots: { index: true, follow: true },
 };
 
@@ -29,10 +33,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
         />
       </head>
-      <body>{children}</body>
+      <body className="relative">{children}</body>
     </html>
   );
 }
