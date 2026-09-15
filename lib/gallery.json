@@ -1,0 +1,80 @@
+{
+  "strong": [
+    {
+      "file": "s1_t3_seed1.webp",
+      "alt": "a crowd running toward a glowing hole, isometric diorama, miniature style, mobile game ad"
+    },
+    {
+      "file": "s1_t3_seed0.webp",
+      "alt": "a crowd running toward a glowing hole, isometric diorama, miniature style, mobile game ad"
+    },
+    {
+      "file": "s1_t1_seed2.webp",
+      "alt": "a crowd running toward a glowing hole, 3d mobile game render, soft lighting, mobile game a"
+    },
+    {
+      "file": "s1_t1_seed3.webp",
+      "alt": "a crowd running toward a glowing hole, 3d mobile game render, soft lighting, mobile game a"
+    },
+    {
+      "file": "s1_t2_seed4.webp",
+      "alt": "a crowd running toward a glowing hole, hand-painted casual game art, mobile game ad"
+    },
+    {
+      "file": "s1_t1_seed4.webp",
+      "alt": "a crowd running toward a glowing hole, 3d mobile game render, soft lighting, mobile game a"
+    },
+    {
+      "file": "s0_t3_seed1.webp",
+      "alt": "a giant hole swallowing tiny cartoon people, isometric diorama, miniature style, mobile ga"
+    },
+    {
+      "file": "s2_t1_seed2.webp",
+      "alt": "one cartoon person falling into a hole, arms up, 3d mobile game render, soft lighting, mob"
+    },
+    {
+      "file": "s1_t2_seed3.webp",
+      "alt": "a crowd running toward a glowing hole, hand-painted casual game art, mobile game ad"
+    },
+    {
+      "file": "s1_t1_seed0.webp",
+      "alt": "a crowd running toward a glowing hole, 3d mobile game render, soft lighting, mobile game a"
+    },
+    {
+      "file": "s1_t1_seed1.webp",
+      "alt": "a crowd running toward a glowing hole, 3d mobile game render, soft lighting, mobile game a"
+    }
+  ],
+  "spread": [
+    {
+      "file": "s1_t1_seed2.webp",
+      "alt": "a crowd running toward a glowing hole, 3d mobile game render, soft lighting, mobile game a",
+      "rating": 5
+    },
+    {
+      "file": "s1_t1_seed3.webp",
+      "alt": "a crowd running toward a glowing hole, 3d mobile game render, soft lighting, mobile game a",
+      "rating": 5
+    },
+    {
+      "file": "s1_t3_seed4.webp",
+      "alt": "a crowd running toward a glowing hole, isometric diorama, miniature style, mobile game ad",
+      "rating": 3
+    },
+    {
+      "file": "s1_t3_seed2.webp",
+      "alt": "a crowd running toward a glowing hole, isometric diorama, miniature style, mobile game ad",
+      "rating": 2
+    },
+    {
+      "file": "s2_t3_seed3.webp",
+      "alt": "one cartoon person falling into a hole, arms up, isometric diorama, miniature style, mobil",
+      "rating": 1
+    },
+    {
+      "file": "s2_t3_seed4.webp",
+      "alt": "one cartoon person falling into a hole, arms up, isometric diorama, miniature style, mobil",
+      "rating": 1
+    }
+  ]
+}

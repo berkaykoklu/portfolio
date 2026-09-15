@@ -46,8 +46,8 @@ export default function Research() {
                     on
                       ? "border-brand-deep bg-brand/[0.1] font-medium text-hi"
                       : passed
-                        ? "border-line bg-panel text-mid"
-                        : "border-line bg-panel text-low hover:text-mid"
+                        ? "border-line/70 bg-panel/70 text-mid"
+                        : "border-line/70 bg-panel/70 text-low hover:text-mid"
                   }`}
                 >
                   {n.name}
@@ -58,7 +58,7 @@ export default function Research() {
         </div>
       </div>
 
-      <div className="mt-4 min-h-[6rem] rounded-panel border border-line bg-base/60 p-4">
+      <div className="lift mt-4 min-h-[6rem] rounded-[14px] p-5">
         <AnimatePresence mode="wait">
           <motion.div
             key={node.name}

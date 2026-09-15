@@ -29,6 +29,15 @@
   --color-block: #f0a58c;
   --color-flag: #f0a58c;
 
+  /* Each section gets an identity so the page reads as chapters rather than
+     one long scroll. These are hues, not decoration: a reader recognises where
+     they are before reading the heading. */
+  --color-sec-build: #6d8cff;
+  --color-sec-work: #4dd8e8;
+  --color-sec-open: #4ade80;
+  --color-sec-research: #c9a3ff;
+  --color-sec-exp: #ffb266;
+
   --font-sans: Geist, ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
 
@@ -49,16 +58,18 @@
   /* One light source, behind the first screen only. Below the fold the page
      sits on flat ground -- a gradient that follows you down the page is
      decoration, and decoration is what makes a site read as a template. */
+  /* Sits over the drifting field, so the page has a horizon rather than an
+     evenly-lit backdrop. */
   body::before {
     content: "";
     position: fixed;
-    inset: 0 0 auto 0;
-    height: 65vh;
+    inset: 0;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
     background:
-      radial-gradient(58% 52% at 20% -5%, rgba(109, 140, 255, 0.11), transparent 70%),
-      radial-gradient(42% 42% at 88% 0%, rgba(109, 140, 255, 0.055), transparent 70%);
+      radial-gradient(62% 48% at 18% -8%, rgba(109, 140, 255, 0.16), transparent 68%),
+      radial-gradient(45% 40% at 92% 2%, rgba(77, 216, 232, 0.08), transparent 68%),
+      linear-gradient(to bottom, transparent 0%, rgba(8, 9, 10, 0.55) 46%, rgba(8, 9, 10, 0.86) 100%);
   }
 
   ::selection { background: rgba(109, 140, 255, 0.28); }
@@ -86,8 +97,24 @@
      third typeface never has to be loaded to get one. */
   .display {
     font-weight: 600;
-    letter-spacing: -0.045em;
-    line-height: 0.96;
+    letter-spacing: -0.05em;
+    line-height: 0.92;
+  }
+
+  /* A surface that sits above the field instead of on it: the ring is what
+     separates a panel from the drifting graph behind it. */
+  .lift {
+    background: color-mix(in srgb, var(--color-panel) 88%, transparent);
+    backdrop-filter: blur(14px);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--color-line-lit) 70%, transparent),
+      0 18px 48px -24px rgba(0, 0, 0, 0.9);
+  }
+
+  .glow-ring {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--sec, var(--color-brand)) 32%, transparent),
+      0 0 44px -18px color-mix(in srgb, var(--sec, var(--color-brand)) 60%, transparent);
   }
 
   .label {

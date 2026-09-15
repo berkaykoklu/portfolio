@@ -1,4 +1,6 @@
 import { ArrowUpRight, FileText, Mail } from "lucide-react";
+import Creatives from "@/components/Creatives";
+import Field from "@/components/Field";
 import { GitHubMark, LinkedInMark } from "@/components/BrandIcons";
 import CaseStudy from "@/components/CaseStudy";
 import Experience from "@/components/Experience";
@@ -25,11 +27,13 @@ const EMAIL = "kokluberkay@gmail.com";
 export default function Home() {
   return (
     <>
+      <Field />
       <Nav cv={CV} />
       <Hero cv={CV} github={GITHUB} linkedin={LINKEDIN} />
 
       <Section
         id="platform"
+        accent="var(--color-sec-build)"
         title="What I build"
         lead="Six parts of one production AI platform. Pick one to see what it does and where it shows up below."
       >
@@ -38,6 +42,7 @@ export default function Home() {
 
       <Section
         id="work"
+        accent="var(--color-sec-work)"
         title="Production work"
         lead="Systems running for real users at Bizzbee. Diagrams first; the method is one click away."
       >
@@ -114,9 +119,14 @@ export default function Home() {
 
       <Section
         id="open-source"
+        accent="var(--color-sec-open)"
         title="Open source"
         lead="Built outside work, deployed, and measured. Both publish what they found — including where the result went against me."
       >
+        <Reveal className="mb-10">
+          <Creatives />
+        </Reveal>
+
         <div className="space-y-4">
           <Reveal>
             <CaseStudy
@@ -173,6 +183,7 @@ export default function Home() {
 
       <Section
         id="research"
+        accent="var(--color-sec-research)"
         title="Where I'm going next"
         lead="M.Sc. thesis direction, and the chain of work leading into it. Early research — there are no results here yet."
       >
@@ -198,7 +209,7 @@ export default function Home() {
         </Reveal>
       </Section>
 
-      <Section id="experience" title="Experience">
+      <Section id="experience" accent="var(--color-sec-exp)" title="Experience">
         <Reveal><Experience /></Reveal>
       </Section>
 

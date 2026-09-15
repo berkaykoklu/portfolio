@@ -35,7 +35,7 @@ export default function SystemGraph() {
 
   return (
     <div
-      className="rounded-panel border border-line bg-gradient-to-b from-panel to-base p-5"
+      className="lift glow-ring rounded-[14px] p-6"
       onMouseLeave={() => setHeld(false)}
     >
       <div className="mb-3 flex items-baseline justify-between">

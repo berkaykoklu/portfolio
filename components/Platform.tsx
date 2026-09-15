@@ -34,13 +34,13 @@ export default function Platform() {
               aria-pressed={on}
               onClick={() => setSel(on ? null : p.id)}
               onMouseEnter={() => setSel(p.id)}
-              className={`rounded-panel border p-4 text-left transition-all duration-200 ${
+              className={`rounded-[14px] border p-5 text-left transition-all duration-200 ${
                 on
                   ? "border-brand-deep bg-brand/[0.08]"
-                  : "border-line bg-panel hover:border-line-lit"
+                  : "border-line/70 bg-panel/70 backdrop-blur-sm hover:border-line-lit"
               } ${dim ? "opacity-45" : "opacity-100"}`}
             >
-              <span className={`text-[0.95rem] font-semibold ${on ? "text-hi" : "text-mid"}`}>
+              <span className={`text-[1.05rem] font-semibold ${on ? "text-hi" : "text-mid"}`}>
                 {p.name}
               </span>
             </button>
@@ -48,7 +48,7 @@ export default function Platform() {
         })}
       </div>
 
-      <div className="mt-4 min-h-[5.5rem] rounded-panel border border-line bg-base/60 p-4">
+      <div className="lift mt-4 min-h-[5.5rem] rounded-[14px] p-5">
         <AnimatePresence mode="wait">
           {active ? (
             <motion.div

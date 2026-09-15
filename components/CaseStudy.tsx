@@ -35,10 +35,10 @@ export default function CaseStudy({
   const still = useReducedMotion();
 
   return (
-    <article className="overflow-hidden rounded-panel border border-line bg-panel transition-colors duration-200 hover:border-line-lit">
+    <article className="lift overflow-hidden rounded-[14px] transition-shadow duration-300 hover:shadow-[0_0_0_1px_color-mix(in_srgb,var(--sec,var(--color-brand))_38%,transparent),0_26px_60px_-28px_rgba(0,0,0,.95)]">
       <div className="p-5 sm:p-7">
         <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
-          <span className="label !text-brand">{category}</span>
+          <span className="label" style={{ color: "var(--sec, var(--color-brand))" }}>{category}</span>
           {live && (
             <span className="rounded border border-ok/35 px-2 py-0.5 text-[0.68rem] text-ok">
               Live
@@ -46,7 +46,7 @@ export default function CaseStudy({
           )}
         </div>
 
-        <h3 className="mb-5 max-w-[36ch] text-[clamp(1.15rem,2.6vw,1.45rem)] font-semibold tracking-[-0.025em]">
+        <h3 className="mb-6 max-w-[34ch] text-[clamp(1.35rem,3.2vw,1.9rem)] font-semibold tracking-[-0.03em] leading-[1.1]">
           {title}
         </h3>
 
@@ -54,8 +54,9 @@ export default function CaseStudy({
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-7">
           {headline && (
-            <div className="shrink-0 sm:w-44">
-              <div className="display text-[clamp(1.9rem,5vw,2.6rem)] text-hi tnum">
+            <div className="shrink-0 sm:w-52">
+              <div className="display text-[clamp(2.4rem,6vw,3.4rem)] tnum"
+                style={{ color: "var(--sec, var(--color-hi))" }}>
                 {headline.value}
               </div>
               <div className="mt-1 text-[0.78rem] leading-snug text-low">

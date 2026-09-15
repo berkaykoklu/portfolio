@@ -28,12 +28,12 @@ export default function Experience() {
 
   return (
     <div>
-      <div className="rounded-panel border border-line bg-panel p-5 sm:p-7">
+      <div className="lift rounded-[14px] p-6 sm:p-9">
         <div className="mb-4 flex items-center gap-3">
           <span className="h-2 w-2 rounded-full bg-ok" aria-hidden="true" />
           <span className="font-mono text-[0.78rem] text-mid tnum">{CURRENT.when}</span>
         </div>
-        <h3 className="display text-[clamp(1.4rem,3.4vw,1.9rem)]">{CURRENT.role}</h3>
+        <h3 className="display text-[clamp(1.8rem,4.4vw,2.6rem)]">{CURRENT.role}</h3>
         <p className="mt-1 text-[1rem] font-medium text-brand">{CURRENT.org}</p>
         <p className="mt-3 max-w-[62ch] text-[0.95rem] leading-relaxed text-mid">
           {CURRENT.scope}
