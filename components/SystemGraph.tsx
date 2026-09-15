@@ -9,8 +9,8 @@ import { motion, useReducedMotion } from "motion/react";
  *  control and holds a stage open. */
 const NODES = [
   { id: "user", name: "User", detail: "A question arrives, with the tenant and language it came in." },
-  { id: "intent", name: "Intent", detail: "What is being asked, and whether retrieval is needed at all." },
-  { id: "retrieval", name: "Retrieval", detail: "Dense and lexical search run together; results are fused." },
+  { id: "intent", name: "Route", detail: "What is being asked, whether retrieval is needed at all, and which strategy fits it." },
+  { id: "retrieval", name: "Retrieval", detail: "Vector, lexical or graph traversal — fused, ranked, and re-queried if the context comes back short." },
   { id: "llm", name: "Generation", detail: "The model answers from retrieved passages, nothing else." },
   { id: "guardrail", name: "Guardrail", detail: "Unsafe content and personal data are caught before anyone sees them." },
   { id: "response", name: "Response", detail: "The answer returns, and the exchange is logged for evaluation." },

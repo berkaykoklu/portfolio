@@ -12,7 +12,8 @@ import Reveal from "@/components/Reveal";
 import Section from "@/components/Section";
 import Comparison from "@/components/diagrams/Comparison";
 import IngestionDiagram from "@/components/diagrams/Ingestion";
-import RetrievalDiagram from "@/components/diagrams/Retrieval";
+import AgenticRetrieval from "@/components/diagrams/AgenticRetrieval";
+import GraphHop from "@/components/diagrams/GraphHop";
 import SafetyDiagram from "@/components/diagrams/Safety";
 import { STACK } from "@/lib/content";
 
@@ -35,7 +36,7 @@ export default function Home() {
         id="platform"
         accent="var(--color-sec-build)"
         title="What I build"
-        lead="Six parts of one production AI platform. Pick one to see what it does and where it shows up below."
+        lead="One production AI platform, part by part. Pick one to see what it does and which case study it belongs to."
       >
         <Reveal><Platform /></Reveal>
       </Section>
@@ -49,12 +50,22 @@ export default function Home() {
         <div className="space-y-4">
           <Reveal>
             <CaseStudy
-              category="RETRIEVAL / RAG"
-              title="Hybrid retrieval for a multi-tenant support platform"
-              visual={<RetrievalDiagram />}
-              summary="Built a hybrid retrieval pipeline combining dense vector search with lexical search for a production customer-service platform, tuned across multilingual collections."
-              detail="Dense retrieval matches on meaning, so it handles paraphrase and misses exact tokens — order numbers, SKUs, product names. Lexical search fails the other way. Customers routinely use both in one sentence. Running both arms and fusing the result sets covers each method's blind spot, and retrieval is scoped per tenant because one deployment serves many."
-              tech={["Python", "Vector search", "BM25", "LangChain", "Embeddings"]}
+              category="AGENTIC RAG / ROUTING"
+              title="A retriever that decides how to retrieve"
+              visual={<AgenticRetrieval />}
+              summary="Built retrieval as an agent rather than a fixed pipeline: it decides whether to retrieve at all, which strategy fits the question, and whether what came back is enough to answer with."
+              detail="A fixed retrieve-then-generate chain runs the same way for every question, which means it pays retrieval cost on questions already answered by the conversation, and gives up when one strategy is the wrong one. Routing first turns that into a decision: an identifier goes to lexical search, a paraphrase to vectors, a question spanning entities to the graph, and a follow-up about the previous answer to none of them. The second decision matters more — after fusing and ranking, the agent judges whether the context actually supports an answer, and re-queries with what it learned instead of generating from thin evidence. That loop is where most of the quality comes from, and it is also where cost can run away, so it is bounded."
+              tech={["Python", "Agentic RAG", "Query routing", "Self-reflection", "LangChain", "Vector search", "BM25"]}
+            />
+          </Reveal>
+          <Reveal>
+            <CaseStudy
+              category="GRAPH RAG"
+              title="Questions whose answer is spread across documents"
+              visual={<GraphHop />}
+              summary="Extracted entities and relations from the corpus into a graph, so questions that need several facts connected can be answered by traversal rather than similarity."
+              detail="Chunk retrieval ranks passages by similarity to the question, which works while the answer sits inside one passage. It fails on the questions people actually escalate — the ones needing a customer's order, the warehouse it ships from, and an incident affecting that warehouse, three facts in three documents with no single chunk holding the chain, and no chunk similar enough to the question to surface. Extracting entities and their relations turns that into a path to walk. The cost is real: extraction quality decides everything downstream, and a wrong edge is worse than a missing one because it produces a confident answer along a connection that does not exist."
+              tech={["Python", "Graph RAG", "Entity extraction", "Relation extraction", "Multi-hop retrieval"]}
             />
           </Reveal>
           <Reveal>

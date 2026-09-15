@@ -12,7 +12,7 @@ export const STACK = [
   {
     tier: "AI / ML",
     weight: "primary" as const,
-    items: ["RAG", "Hybrid retrieval", "Embeddings", "Transformers", "Diffusion", "Evaluation", "Offline RL"],
+    items: ["Agentic RAG", "Graph RAG", "Hybrid retrieval", "Query routing", "Embeddings", "Transformers", "Diffusion", "Evaluation", "Offline RL"],
   },
   {
     tier: "Data",

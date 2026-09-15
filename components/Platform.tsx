@@ -3,17 +3,19 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
-/** The six parts of one production platform, not six separate skills. Picking
+/** The parts of one production platform, not a list of separate skills. Picking
  *  one dims the rest and names what it does, what it runs on, and which case
  *  study below it belongs to — so the map is a route into the work rather than
  *  a list of capabilities. */
 const PARTS = [
   { id: "data", name: "Data", col: 0, row: 0, blurb: "Documents arrive structured and unstructured; parsing and chunking decide retrieval quality before retrieval runs.", tech: "Parsing, chunking, MongoDB", to: "Document ingestion" },
-  { id: "retrieval", name: "Retrieval", col: 1, row: 0, blurb: "Dense vector search and lexical search run together and are fused, because each fails where the other works.", tech: "Embeddings, vector search, BM25", to: "Hybrid retrieval" },
-  { id: "orchestration", name: "Orchestration", col: 2, row: 0, blurb: "Conversation state and the sequence of calls that answer one question.", tech: "Python, FastAPI", to: "Production pipelines" },
-  { id: "llm", name: "Generation", col: 0, row: 1, blurb: "The model answers from retrieved passages and the conversation so far — not from everything available.", tech: "LLM APIs, prompt design", to: "Production pipelines" },
+  { id: "routing", name: "Routing", col: 1, row: 0, blurb: "Whether to retrieve at all, and which strategy fits the question. A follow-up about the last answer needs none of them.", tech: "Agentic RAG, query routing", to: "A retriever that decides" },
+  { id: "retrieval", name: "Retrieval", col: 2, row: 0, blurb: "Vector, lexical and graph retrieval, fused and ranked — each covers what the others miss.", tech: "Embeddings, BM25, graph traversal", to: "A retriever that decides" },
+  { id: "graph", name: "Knowledge graph", col: 0, row: 1, blurb: "Entities and relations extracted from the corpus, so questions spanning several documents can be walked instead of guessed.", tech: "Entity and relation extraction", to: "Questions spread across documents" },
+  { id: "llm", name: "Generation", col: 1, row: 1, blurb: "The model answers from retrieved passages and the conversation so far — not from everything available.", tech: "LLM APIs, prompt design", to: "A retriever that decides" },
   { id: "guardrails", name: "Guardrails", col: 1, row: 1, blurb: "Unsafe content and personal data are caught on the output path, under limits set per deployment.", tech: "Moderation, PII detection", to: "Safety and PII" },
-  { id: "evaluation", name: "Evaluation", col: 2, row: 1, blurb: "Measurement and feedback loops, so a change to a prompt or a retriever is judged rather than guessed.", tech: "Eval pipelines, feedback loops", to: "Evaluation" },
+  { id: "orchestration", name: "Orchestration", col: 2, row: 1, blurb: "Conversation state and the sequence of calls that answer one question, including when a step has to run again.", tech: "Python, FastAPI", to: "A retriever that decides" },
+  { id: "evaluation", name: "Evaluation", col: 0, row: 2, blurb: "Measurement and feedback loops, so a change to a prompt or a retriever is judged rather than guessed.", tech: "Eval pipelines, feedback loops", to: "Evaluation" },
 ] as const;
 
 export default function Platform() {
@@ -70,7 +72,7 @@ export default function Platform() {
               animate={{ opacity: 1 }}
               className="text-[0.92rem] text-mid"
             >
-              Six parts of one platform. Pick one.
+              {PARTS.length} parts of one platform. Pick one.
             </motion.p>
           )}
         </AnimatePresence>
