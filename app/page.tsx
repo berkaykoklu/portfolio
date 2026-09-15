@@ -1,86 +1,111 @@
-import { ALSO, FEATURED, type Project } from "@/lib/projects";
+import { MINOR, PROJECTS, type Measurement, type Project } from "@/lib/projects";
 
-/** Contact details live here rather than inline so there is one place to
- *  change them, and so an unset value renders nothing at all instead of a
- *  dead link. */
 const CONTACT = {
   github: "https://github.com/berkaykoklu",
-  linkedin: "",
-  email: "",
-  cv: "",
+  linkedin: "https://www.linkedin.com/in/berkay-köklü-4777b41b9/",
+  email: "kokluberkay@gmail.com",
 };
 
-function Card({ project }: { project: Project }) {
+const ROLES = ["AI Engineer", "ML Engineer", "Data Scientist"];
+
+/** Bars on a shared scale with the reference drawn through them, so a value
+ *  that fails to clear it is obvious at a glance rather than needing the
+ *  reader to compare two numbers in their head. */
+function Strip({ measurement }: { measurement: Measurement }) {
+  const { caption, scale, reference, bars, note } = measurement;
+  const pct = (value: number) => `${Math.min(100, (value / scale) * 100)}%`;
+
   return (
-    <article className="card live">
+    <div className="strip">
+      <p className="strip-head">{caption}</p>
       <div>
-        <p className="mono" style={{ fontSize: ".74rem", color: "var(--muted)" }}>
-          {project.name}
-        </p>
-        <h3>{project.title}</h3>
-      </div>
-      <p className="problem">{project.problem}</p>
-      <p className="finding">{project.finding}</p>
-      <div className="chips">
-        {project.stack.map((tech) => (
-          <span className="chip" key={tech}>{tech}</span>
+        {bars.map((bar) => (
+          <div className="bar" key={bar.name}>
+            <span className="name">{bar.name}</span>
+            <span className="track">
+              <span className={`fill ${bar.verdict}`} style={{ width: pct(bar.value) }} />
+              <span className="tick" style={{ left: pct(reference.value) }} data-label="" />
+            </span>
+            <span className="val">{bar.value.toFixed(2)}</span>
+          </div>
         ))}
       </div>
-      <div className="links">
-        {project.live && (
-          <a className="btn primary" href={project.live}>
-            Open the live site →
-          </a>
-        )}
-        <a className="btn" href={project.code}>Read the code</a>
-      </div>
+      <p className="note">
+        <span style={{ color: "var(--reference)", fontWeight: 600 }}>
+          The vertical line is {reference.label}, at {reference.value}.
+        </span>{" "}
+        {note}
+      </p>
+    </div>
+  );
+}
+
+function Entry({ project }: { project: Project }) {
+  return (
+    <article className="project">
+      <h3>{project.title}</h3>
+      <p className="problem">{project.problem}</p>
+      <Strip measurement={project.measurement} />
+      <p className="stack">
+        {project.stack.map((tech) => (
+          <span key={tech}>{tech}</span>
+        ))}
+      </p>
+      <p className="actions">
+        <a className="open" href={project.live}>Open {project.name}</a>
+        <a className="plain" href={project.code}>Read the code</a>
+      </p>
     </article>
   );
 }
 
 export default function Home() {
-  const hasContact = CONTACT.linkedin || CONTACT.email || CONTACT.cv;
-
   return (
     <>
       <header className="masthead">
         <h1>Berkay Köklü</h1>
-        <p className="roles">AI Engineer · ML Engineer · Data Scientist</p>
-        <p className="deck">
-          Building production AI systems with Python, PyTorch and LangGraph.
-          Both projects below are live — open them and try them.
+        <p className="roles">
+          {ROLES.map((role) => (
+            <span key={role}>{role}</span>
+          ))}
+        </p>
+        <p className="thesis">
+          I build AI systems, then try to prove they do not work.
+          <span className="q">
+            Both projects below are running right now — open one and use it. Each
+            shows what it measured, what it was measured against, and where it
+            failed.
+          </span>
         </p>
       </header>
 
       <h2>Projects</h2>
-      <div className="cards">
-        {FEATURED.map((project) => (
-          <Card key={project.name} project={project} />
-        ))}
-      </div>
+      {PROJECTS.map((project) => (
+        <Entry key={project.name} project={project} />
+      ))}
 
       <h2>How I work</h2>
-      <div className="approach">
+      <div className="practice">
         <div>
           <h3>Measure, don&rsquo;t ask</h3>
           <p>
             Where a question is decidable — does this citation resolve, does this
-            figure match the filing, does this image match its prompt — it gets
-            decided in code. Using a language model to judge it would trade a
+            figure match the filing, does this image match its prompt — it is
+            decided in code. Asking a language model to judge it would trade a
             guarantee for a probability.
           </p>
         </div>
         <div>
-          <h3>Check the measurement</h3>
+          <h3>Then attack the measurement</h3>
           <p>
             A metric that agrees with you is not the same as a metric that works.
             In creative-eval a control ran the identical arithmetic on a region
             with no rationale behind it, scored higher, and refuted the metric it
-            was auditing. That result is on the page.
+            was auditing.
           </p>
         </div>
         <div>
-          <h3>Report the gaps</h3>
+          <h3>Publish the gap</h3>
           <p>
             A chapter that cannot be parsed is reported missing, not guessed. A
             claim that fails verification twice is dropped, not shipped. Every
@@ -89,45 +114,23 @@ export default function Home() {
         </div>
       </div>
 
-      <h2>Also on GitHub</h2>
-      <div className="secondary">
-        {ALSO.map((project) => (
-          <article className="mini" key={project.name}>
-            <p className="mono" style={{ fontSize: ".72rem", color: "var(--muted)" }}>
-              {project.name}
-            </p>
+      <h2>Smaller work</h2>
+      <div className="minor">
+        {MINOR.map((project) => (
+          <div key={project.name}>
             <h3>{project.title}</h3>
-            <p>{project.problem}</p>
-            <div className="chips">
-              {project.stack.map((tech) => (
-                <span className="chip" key={tech}>{tech}</span>
-              ))}
-            </div>
-            <div className="links">
-              <a className="btn" href={project.code}>Read the code</a>
-            </div>
-          </article>
+            <p>{project.blurb}</p>
+            <a href={project.code}>Read the code</a>
+          </div>
         ))}
       </div>
 
       <h2>Get in touch</h2>
-      <div className="contact">
-        <a className="btn" href={CONTACT.github}>GitHub</a>
-        {CONTACT.linkedin && (
-          <a className="btn" href={CONTACT.linkedin}>LinkedIn</a>
-        )}
-        {CONTACT.email && (
-          <a className="btn primary" href={`mailto:${CONTACT.email}`}>Email</a>
-        )}
-        {CONTACT.cv && (
-          <a className="btn" href={CONTACT.cv}>Download CV (PDF)</a>
-        )}
-      </div>
-      {!hasContact && (
-        <p style={{ fontSize: ".88rem", color: "var(--muted)" }}>
-          More ways to reach me are on the way.
-        </p>
-      )}
+      <p className="contact">
+        <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+        <a href={CONTACT.linkedin}>LinkedIn</a>
+        <a href={CONTACT.github}>GitHub</a>
+      </p>
     </>
   );
 }

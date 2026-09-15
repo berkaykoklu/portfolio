@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..700&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap"
         />
       </head>
       <body>
