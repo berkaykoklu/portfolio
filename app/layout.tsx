@@ -7,10 +7,10 @@ const DESCRIPTION =
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://berkaykoklu.vercel.app"),
-  title: "Berkay Köklü — AI Engineer & ML Researcher",
+  title: "Berkay Köklü — AI Engineer & ML Engineer",
   description: DESCRIPTION,
   openGraph: {
-    title: "Berkay Köklü — AI Engineer & ML Researcher",
+    title: "Berkay Köklü — AI Engineer & ML Engineer",
     description: DESCRIPTION,
     url: "https://berkaykoklu.vercel.app",
     siteName: "Berkay Köklü",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Berkay Köklü — AI Engineer & ML Researcher",
+    title: "Berkay Köklü — AI Engineer & ML Engineer",
     description: DESCRIPTION,
   },
   robots: { index: true, follow: true },

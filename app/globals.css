@@ -21,7 +21,12 @@
   --color-brand-lit: #8aa3ff;
   --color-brand-deep: #2b3a6b;
 
+  /* Two accents, both semantic. Blue is structure and interaction; cyan marks
+     a system in motion -- data actually moving through a pipeline. Green and
+     amber appear only as states: passed, blocked. Nothing here is decorative. */
+  --color-flow: #4dd8e8;
   --color-ok: #4ade80;
+  --color-block: #f0a58c;
   --color-flag: #f0a58c;
 
   --font-sans: Geist, ui-sans-serif, system-ui, sans-serif;
@@ -76,4 +81,24 @@
 @layer utilities {
   /* Numerals that line up in columns and never jitter while animating. */
   .tnum { font-variant-numeric: tabular-nums; }
+
+  /* Display type: the size and the tightening are the display treatment, so a
+     third typeface never has to be loaded to get one. */
+  .display {
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 0.96;
+  }
+
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--color-low);
+  }
+
+  /* Diagrams scroll inside their own box; the page itself never does. */
+  .diagram-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
+  .diagram-scroll::-webkit-scrollbar { height: 4px; }
+  .diagram-scroll::-webkit-scrollbar-thumb { background: var(--color-line-lit); border-radius: 2px; }
 }

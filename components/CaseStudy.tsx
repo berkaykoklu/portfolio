@@ -1,43 +1,72 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, ChevronDown, Code2 } from "lucide-react";
-import type { Project } from "@/lib/content";
 
-/** Collapsed by default: a recruiter scanning gets the problem and the outcome,
- *  an engineer who wants the method opens it. The summary is never hidden --
- *  only the detail is, so nothing needed for a fast read is behind a click. */
-export default function CaseStudy({ item }: { item: Project }) {
+export type Headline = { value: string; caption: string };
+
+/** Ordered for two readers at once: category and diagram answer "what is this"
+ *  before any prose, the headline figure answers "did it work", one sentence
+ *  answers "what did you do", and the method — the only part that needs
+ *  paragraphs — waits behind a click. Nothing a fast reader needs is hidden. */
+export default function CaseStudy({
+  category,
+  title,
+  visual,
+  headline,
+  summary,
+  detail,
+  tech,
+  live,
+  code,
+}: {
+  category: string;
+  title: string;
+  visual?: ReactNode;
+  headline?: Headline;
+  summary: string;
+  detail: string;
+  tech: string[];
+  live?: string;
+  code?: string;
+}) {
   const [open, setOpen] = useState(false);
   const still = useReducedMotion();
 
   return (
-    <article className="rounded-panel border border-line bg-panel transition-colors duration-200 hover:border-line-lit">
+    <article className="overflow-hidden rounded-panel border border-line bg-panel transition-colors duration-200 hover:border-line-lit">
       <div className="p-5 sm:p-7">
-        <div className="mb-4 flex flex-wrap items-baseline gap-x-3 gap-y-2">
-          <span className="font-mono text-[0.75rem] text-brand tnum">{item.no}</span>
-          <h3 className="flex-1 text-[clamp(1.05rem,2.4vw,1.3rem)] font-semibold tracking-[-0.02em]">
-            {item.title}
-          </h3>
-          <span
-            className={`rounded border px-2 py-0.5 text-[0.68rem] ${
-              item.live
-                ? "border-ok/35 text-ok"
-                : "border-line text-low"
-            }`}
-          >
-            {item.live ? "Live" : "Production"}
-          </span>
+        <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+          <span className="label !text-brand">{category}</span>
+          {live && (
+            <span className="rounded border border-ok/35 px-2 py-0.5 text-[0.68rem] text-ok">
+              Live
+            </span>
+          )}
         </div>
 
-        <p className="max-w-3xl text-[0.94rem] leading-relaxed text-mid">
-          {item.problem}
-        </p>
+        <h3 className="mb-5 max-w-[36ch] text-[clamp(1.15rem,2.6vw,1.45rem)] font-semibold tracking-[-0.025em]">
+          {title}
+        </h3>
 
-        <p className="mt-3 max-w-3xl text-[0.94rem] leading-relaxed text-hi">
-          {item.impact}
-        </p>
+        {visual && <div className="mb-5">{visual}</div>}
+
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-7">
+          {headline && (
+            <div className="shrink-0 sm:w-44">
+              <div className="display text-[clamp(1.9rem,5vw,2.6rem)] text-hi tnum">
+                {headline.value}
+              </div>
+              <div className="mt-1 text-[0.78rem] leading-snug text-low">
+                {headline.caption}
+              </div>
+            </div>
+          )}
+          <p className="max-w-[58ch] text-[0.95rem] leading-relaxed text-mid">
+            {summary}
+          </p>
+        </div>
 
         <AnimatePresence initial={false}>
           {open && (
@@ -49,11 +78,9 @@ export default function CaseStudy({ item }: { item: Project }) {
               className="overflow-hidden"
             >
               <div className="mt-5 border-t border-line pt-5">
-                <p className="mb-1 font-mono text-[0.7rem] tracking-wide text-low">
-                  APPROACH
-                </p>
-                <p className="max-w-3xl text-[0.94rem] leading-relaxed text-mid">
-                  {item.approach}
+                <p className="label mb-2">HOW IT WORKS</p>
+                <p className="max-w-[70ch] text-[0.93rem] leading-relaxed text-mid">
+                  {detail}
                 </p>
               </div>
             </motion.div>
@@ -61,7 +88,7 @@ export default function CaseStudy({ item }: { item: Project }) {
         </AnimatePresence>
 
         <div className="mt-5 flex flex-wrap gap-1.5">
-          {item.tech.map((t) => (
+          {tech.map((t) => (
             <span
               key={t}
               className="rounded border border-line bg-raised px-2 py-1 font-mono text-[0.71rem] text-mid"
@@ -77,31 +104,25 @@ export default function CaseStudy({ item }: { item: Project }) {
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
-          className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-[0.83rem] font-medium text-mid transition-colors hover:text-hi"
+          className="inline-flex items-center gap-1.5 rounded-lg py-1.5 text-[0.83rem] font-medium text-mid transition-colors hover:text-hi"
         >
           <ChevronDown
             size={14}
             aria-hidden="true"
             className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}
           />
-          {open ? "Hide approach" : "How it works"}
+          {open ? "Hide technical details" : "View technical details"}
         </button>
 
         <div className="ml-auto flex flex-wrap gap-2">
-          {item.live && (
-            <a
-              href={item.live}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-3.5 py-2 text-[0.83rem] font-semibold text-[#060810] transition-colors hover:bg-brand-lit"
-            >
+          {live && (
+            <a href={live} className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-3.5 py-2 text-[0.83rem] font-semibold text-[#060810] transition-colors hover:bg-brand-lit">
               Open it
               <ArrowUpRight size={14} aria-hidden="true" />
             </a>
           )}
-          {item.code && (
-            <a
-              href={item.code}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-line-ctl bg-lifted px-3.5 py-2 text-[0.83rem] font-medium transition-colors hover:bg-raised"
-            >
+          {code && (
+            <a href={code} className="inline-flex items-center gap-1.5 rounded-lg border border-line-ctl bg-lifted px-3.5 py-2 text-[0.83rem] font-medium transition-colors hover:bg-raised">
               <Code2 size={14} aria-hidden="true" />
               Code
             </a>
