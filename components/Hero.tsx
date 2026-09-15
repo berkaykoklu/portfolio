@@ -1,20 +1,20 @@
 import { ArrowDown, Download } from "lucide-react";
 import SystemGraph from "./SystemGraph";
+import type { SystemStage } from "@/lib/content";
 import Reveal from "./Reveal";
 import { GitHubMark, LinkedInMark } from "./BrandIcons";
 
 /** Descriptive where a number would have to be invented. "Since Jan 2025" is a
  *  date anyone can check against the CV; "2+ years" would be a claim that
  *  outruns it. */
-const FACTS = [
-  { k: "AI Engineer", v: "since Jan 2025", sub: "Bizzbee — production LLM systems" },
-  { k: "M.Sc. candidate", v: "Boğaziçi", sub: "Electrical & Electronics Engineering" },
-  { k: "Open source", v: "2 live systems", sub: "deployed, measured, documented" },
-];
-
 export default function Hero({
-  cv, github, linkedin,
-}: { cv: string; github: string; linkedin: string }) {
+  cv, github, linkedin, ui, system, pipelineLabel,
+}: {
+  cv: string; github: string; linkedin: string;
+  ui: { roleA: string; roleB: string; lede: string; viewWork: string; facts: readonly { k: string; v: string; sub: string }[] };
+  system: SystemStage[];
+  pipelineLabel: string;
+}) {
   return (
     <header id="top" className="relative z-10">
       <div className="mx-auto grid w-full max-w-[84rem] items-center gap-12 px-6 pb-20 pt-16 sm:pt-24 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16 lg:pb-28">
@@ -32,13 +32,12 @@ export default function Hero({
           </p>
 
           <p className="mt-7 max-w-[34ch] text-[clamp(1.25rem,3vw,1.7rem)] font-medium leading-[1.3] tracking-[-0.025em]">
-            Building production AI systems, and researching how agents learn
-            from generated worlds.
+{ui.lede}
           </p>
 
           <div className="mt-10 flex flex-wrap gap-3">
             <a href="#work" className="inline-flex items-center gap-2 rounded-lg bg-brand px-5 py-3 text-[0.92rem] font-semibold text-[#060810] transition-colors hover:bg-brand-lit">
-              View work
+              {ui.viewWork}
               <ArrowDown size={15} aria-hidden="true" />
             </a>
             <a href={github} className="inline-flex items-center gap-2 rounded-lg border border-line-ctl bg-lifted px-5 py-3 text-[0.92rem] font-medium transition-colors hover:bg-raised">
@@ -53,9 +52,9 @@ export default function Hero({
           </div>
 
           <dl className="mt-12 grid gap-x-8 gap-y-6 border-t border-line pt-8 sm:grid-cols-3">
-            {FACTS.map((f) => (
+            {ui.facts.map((f) => (
               <div key={f.k}>
-                <dt className="label">{f.k.toUpperCase()}</dt>
+                <dt className="label">{f.k}</dt>
                 <dd className="mt-2 text-[clamp(1.1rem,2.4vw,1.4rem)] font-semibold tracking-[-0.03em]">{f.v}</dd>
                 <dd className="mt-0.5 text-[0.76rem] leading-snug text-low">{f.sub}</dd>
               </div>
@@ -64,7 +63,7 @@ export default function Hero({
         </Reveal>
 
         <Reveal delay={0.12}>
-          <SystemGraph />
+          <SystemGraph nodes={system} label={pipelineLabel} />
         </Reveal>
       </div>
     </header>

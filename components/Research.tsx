@@ -2,24 +2,17 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import type { ResearchNode } from "@/lib/content";
 
 /** A trajectory rather than a skills list: each node exists because of the one
  *  before it, and the last is where the M.Sc. work is aimed. Framed as a
  *  direction, not a result — there are no findings here yet and the copy says
  *  so. */
-const NODES = [
-  { name: "Generative models", what: "Learning a distribution rather than a single answer.", why: "A model that can sample is a model you can ask for alternatives." },
-  { name: "Diffusion", what: "Sampling by denoising, step by step.", why: "The steps are where control can be applied — which is the whole opening." },
-  { name: "Time-series", what: "Sequences where order and dynamics carry the signal.", why: "A trajectory is a sequence; the structure has to survive generation." },
-  { name: "World models", what: "A learned simulator to plan inside.", why: "If the simulator is good enough, planning no longer needs the real environment." },
-  { name: "Offline RL", what: "Policies learned from logged data, without acting to explore.", why: "Exactly the setting where acting to learn is expensive or unsafe." },
-  { name: "Sequential decisions", what: "Choosing under uncertainty, over time.", why: "The point of all of it." },
-] as const;
 
-export default function Research() {
+export default function Research({ nodes: NODES }: { nodes: ResearchNode[] }) {
   const [i, setI] = useState(3);
   const still = useReducedMotion();
-  const node = NODES[i] ?? NODES[0];
+  const node = NODES[i] ?? NODES[0]!;
 
   return (
     <div>

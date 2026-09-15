@@ -20,6 +20,7 @@ export default function CaseStudy({
   tech,
   live,
   code,
+  t,
 }: {
   category: string;
   title: string;
@@ -30,6 +31,7 @@ export default function CaseStudy({
   tech: string[];
   live?: string;
   code?: string;
+  t: { show: string; hide: string; open: string; code: string; live: string; production: string };
 }) {
   const [open, setOpen] = useState(false);
   const still = useReducedMotion();
@@ -112,20 +114,20 @@ export default function CaseStudy({
             aria-hidden="true"
             className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}
           />
-          {open ? "Hide technical details" : "View technical details"}
+          {open ? t.hide : t.show}
         </button>
 
         <div className="ml-auto flex flex-wrap gap-2">
           {live && (
             <a href={live} className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-3.5 py-2 text-[0.83rem] font-semibold text-[#060810] transition-colors hover:bg-brand-lit">
-              Open it
+              {t.open}
               <ArrowUpRight size={14} aria-hidden="true" />
             </a>
           )}
           {code && (
             <a href={code} className="inline-flex items-center gap-1.5 rounded-lg border border-line-ctl bg-lifted px-3.5 py-2 text-[0.83rem] font-medium transition-colors hover:bg-raised">
               <Code2 size={14} aria-hidden="true" />
-              Code
+              {t.code}
             </a>
           )}
         </div>

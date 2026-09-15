@@ -2,24 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
+import type { SystemStage } from "@/lib/content";
 
 /** The hero's living system: the retrieval path the work below describes,
  *  running. A packet moves through it continuously so the first thing on
  *  screen is a system in motion rather than a diagram of one; hovering takes
  *  control and holds a stage open. */
-const NODES = [
-  { id: "user", name: "User", detail: "A question arrives, with the tenant and language it came in." },
-  { id: "intent", name: "Route", detail: "What is being asked, whether retrieval is needed at all, and which strategy fits it." },
-  { id: "retrieval", name: "Retrieval", detail: "Vector, lexical or graph traversal — fused, ranked, and re-queried if the context comes back short." },
-  { id: "llm", name: "Generation", detail: "The model answers from retrieved passages, nothing else." },
-  { id: "guardrail", name: "Guardrail", detail: "Unsafe content and personal data are caught before anyone sees them." },
-  { id: "response", name: "Response", detail: "The answer returns, and the exchange is logged for evaluation." },
-] as const;
 
 const STEP = 78;
 const TOP = 26;
 
-export default function SystemGraph() {
+export default function SystemGraph({ nodes: NODES, label }: { nodes: SystemStage[]; label: string }) {
   const [active, setActive] = useState(0);
   const [held, setHeld] = useState(false);
   const still = useReducedMotion();
@@ -30,7 +23,7 @@ export default function SystemGraph() {
     return () => clearInterval(id);
   }, [held, still]);
 
-  const node = NODES[active] ?? NODES[0];
+  const node = NODES[active] ?? NODES[0]!;
   const height = TOP + (NODES.length - 1) * STEP + 40;
 
   return (
@@ -39,7 +32,7 @@ export default function SystemGraph() {
       onMouseLeave={() => setHeld(false)}
     >
       <div className="mb-3 flex items-baseline justify-between">
-        <span className="label">PRODUCTION PATH</span>
+        <span className="label">{label}</span>
         <span className="label tnum">
           {String(active + 1).padStart(2, "0")}/{NODES.length}
         </span>

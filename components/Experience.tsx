@@ -3,26 +3,17 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ChevronDown } from "lucide-react";
+import type { Jobs } from "@/lib/content";
 
 /** The AI role carries the weight; the earlier roles are real and stay, but
  *  collapsed, because detail about SQL Server administration competes with the
  *  thing a reader came for. Scope only — the method is in Work, and repeating
  *  it here would make the page longer without making it say more. */
-const CURRENT = {
-  when: "Jan 2025 — now",
-  role: "AI Engineer",
-  org: "Bizzbee",
-  scope:
-    "Production LLM systems for a multi-tenant AI customer service platform: retrieval, generation, safety and the evaluation loops around them.",
-};
 
-const EARLIER = [
-  { when: "Feb 2024 — Jan 2025", role: "Startech Intern", org: "Intertech", scope: "SQL Server administration: clusters, monitoring, upgrades, archiving." },
-  { when: "Jun — Oct 2023", role: "Software Support Intern", org: "Sendeo", scope: "Diagnosed production database issues across SQL, Kibana and Azure." },
-  { when: "Jan 2022 — Jul 2023", role: "Coding Trainer", org: "Logiscool", scope: "Taught block-based programming and Python across age groups." },
-];
 
-export default function Experience() {
+export default function Experience({ jobs, labels }: { jobs: Jobs; labels: { earlier: string; hideEarlier: string } }) {
+  const CURRENT = jobs.current;
+  const EARLIER = jobs.earlier;
   const [open, setOpen] = useState(false);
   const still = useReducedMotion();
 
@@ -51,7 +42,7 @@ export default function Experience() {
           aria-hidden="true"
           className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}
         />
-        {open ? "Hide earlier roles" : `Earlier roles (${EARLIER.length})`}
+        {open ? labels.hideEarlier : labels.earlier}
       </button>
 
       <AnimatePresence initial={false}>
