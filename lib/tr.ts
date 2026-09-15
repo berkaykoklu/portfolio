@@ -15,9 +15,9 @@ export const PRODUCTION_TR: Case[] = [
     category: "AGENTIC RAG / YÖNLENDİRME",
     title: "Nasıl arayacağına kendi karar veren bir retriever",
     summary:
-      "Retrieval'ı sabit bir hat değil, bir karar dizisi olarak kurdum: aramaya gerek var mı, hangi strateji uyar, ve gelen bağlam cevap vermeye yetiyor mu.",
+      "Retrieval'ı sabit bir hat olarak değil, bir karar dizisi olarak kurdum. Aramaya gerek var mı, hangi strateji uyar, gelen bağlam cevap vermeye yetiyor mu.",
     detail:
-      "Sabit bir retrieve-then-generate zinciri her soru için aynı şekilde çalışır: konuşmadan zaten cevaplanabilecek sorularda arama maliyeti öder, ve yanlış stratejiyle karşılaştığında pes eder. Önce yönlendirme bunu bir karara çeviriyor — bir sipariş numarası lexical aramaya, başka deyişle sorulmuş bir soru vektörlere, varlıklar arasına yayılan bir soru graph'a, önceki cevaba dair bir takip sorusu ise hiçbirine gidiyor. İkinci karar daha önemli: füzyon ve sıralamadan sonra ajan, elindeki bağlamın cevabı gerçekten destekleyip desteklemediğine bakıyor ve yetersizse öğrendiğiyle yeniden sorguluyor. Kalitenin çoğu o döngüden geliyor — ve maliyetin kaçabileceği yer de orası olduğu için döngü sınırlı.",
+      "Sabit bir retrieve-then-generate zinciri her soruyu aynı şekilde işler. Konuşmadan zaten cevaplanabilecek bir soruda bile arama maliyeti öder, yanlış stratejiye denk geldiğinde de pes eder. Yönlendirme bunu bir karara dönüştürüyor. Sipariş numarası lexical aramaya gidiyor, başka kelimelerle sorulmuş bir soru vektörlere, varlıklar arasına yayılan bir soru graph'a. Önceki cevaba dair bir takip sorusu ise hiçbirine gitmiyor. İkinci karar daha önemli. Füzyon ve sıralamadan sonra ajan elindeki bağlama bakıyor, cevabı gerçekten destekliyor mu diye. Desteklemiyorsa öğrendiğiyle yeniden sorguluyor. Kalitenin çoğu bu döngüden geliyor. Maliyetin kaçabileceği yer de burası olduğu için döngüyü sınırlı tuttum.",
     tech: ["Python", "Agentic RAG", "Query routing", "Self-reflection", "LangChain", "Vector search", "BM25"],
   },
   {
@@ -25,9 +25,9 @@ export const PRODUCTION_TR: Case[] = [
     category: "GRAPH RAG",
     title: "Cevabı birkaç belgeye yayılmış sorular",
     summary:
-      "Corpus'tan varlık ve ilişkileri çıkarıp graph'a aldım, böylece birkaç olgunun birleştirilmesini gerektiren sorular benzerlikle değil gezinerek cevaplanıyor.",
+      "Corpus'tan varlıkları ve aralarındaki ilişkileri çıkarıp graph'a aldım. Böylece birkaç olgunun birleşmesini gerektiren sorular benzerlikle değil, gezinerek cevaplanıyor.",
     detail:
-      "Chunk retrieval, pasajları soruya benzerliğe göre sıralar; cevap tek bir pasajın içindeyken çalışır. İnsanların gerçekten üst kademeye taşıdığı sorularda çöker — müşterinin siparişi, siparişin sevk edildiği depo, ve o depoyu etkileyen bir aksaklık: üç belgede üç olgu, hiçbir chunk zinciri barındırmıyor ve hiçbiri soruya yeterince benzemiyor ki üste çıksın. Varlıkları ve ilişkilerini çıkarmak bunu yürünebilir bir yola çeviriyor. Bedeli gerçek: çıkarım kalitesi aşağıdaki her şeyi belirliyor, ve yanlış bir kenar eksik olandan daha kötü — çünkü var olmayan bir bağlantı üzerinden kendinden emin bir cevap üretir.",
+      "Chunk retrieval pasajları soruya benzerliğine göre sıralar. Cevap tek bir pasajın içindeyse bu çalışır. İnsanların gerçekten üst kademeye taşıdığı sorularda çöker. Müşterinin siparişi, siparişin sevk edildiği depo, o depoyu etkileyen aksaklık: üç belgede üç ayrı olgu. Hiçbir chunk bu zinciri barındırmıyor, hiçbiri de soruya üste çıkacak kadar benzemiyor. Varlıkları ve ilişkilerini çıkarmak bunu yürünebilir bir yola dönüştürüyor. Bedeli var. Çıkarım kalitesi sonraki her şeyi belirliyor. Yanlış bir kenar, eksik olandan daha kötü: var olmayan bir bağlantı üzerinden kendinden emin bir cevap üretir.",
     tech: ["Python", "Graph RAG", "Entity extraction", "Relation extraction", "Multi-hop retrieval"],
   },
   {
@@ -35,9 +35,9 @@ export const PRODUCTION_TR: Case[] = [
     category: "GÜVENLİK / GUARDRAIL",
     title: "Model çıktısında güvenlik kısıtları ve PII anonimleştirme",
     summary:
-      "Moderasyonu ve kişisel veri anonimleştirmeyi çıktı yolunun kendisine koydum; kısıtlar kuruluma göre yapılandırılabiliyor.",
+      "Moderasyonu ve kişisel veri anonimleştirmesini çıktı yolunun kendisine koydum. Kısıtlar her kurulum için ayrı ayarlanabiliyor.",
     detail:
-      "Müşteri kayıtlarına erişebilen bir model onları tekrarlar. Moderasyon tek bir sabit kural da olamaz — tenant'lar neyin söylenip saklanabileceği konusunda birbirinden farklı. Denetimleri çıktı yolunun yanına değil üstüne koymak, her cevabın oradan geçmesi demek; kısıtları kod yerine yapılandırma yapmak da kuralın hattı değiştirmeden değişmesini sağlıyor.",
+      "Müşteri kayıtlarına erişebilen bir model onları tekrarlar. Moderasyon tek bir sabit kural da olamaz, çünkü tenant'lar neyin söylenip saklanabileceği konusunda birbirinden ayrılıyor. Denetimleri çıktı yolunun yanına değil üstüne koydum. Böylece her cevap oradan geçiyor. Kısıtları kod yerine yapılandırmada tutmak da kuralı değiştirirken hatta dokunmamayı sağlıyor.",
     tech: ["Python", "Moderasyon", "PII tespiti", "FastAPI"],
   },
   {
@@ -45,9 +45,9 @@ export const PRODUCTION_TR: Case[] = [
     category: "VERİ / ALIM",
     title: "Belge alımı ve chunk'lama",
     summary:
-      "Yapılı ve yapısız kaynaklar için alım ve chunk'lama hatları kurdum; sınırları, geri gelen bağlamın tutarlı kalacağı şekilde seçtim.",
+      "Yapılı ve yapısız kaynaklar için alım ve chunk'lama hatları kurdum. Sınırları, geri gelen bağlam tutarlı kalsın diye seçtim.",
     detail:
-      "Retrieval kalitesi, retrieval çalışmadan önce belirlenir. Bir argümanın ortasından bölünen chunk, arama ne kadar iyi olursa olsun gürültü olarak geri döner; kaynaklar da birbirinden farklı şekillerde bozulan formatlarda geliyor. Tek bir hat ikisini de işliyor, ve chunk sınırları geri gelen parçanın tek başına okunabilir olacağı şekilde seçiliyor.",
+      "Retrieval kalitesi, retrieval çalışmadan önce belirleniyor. Bir argümanın ortasından bölünen chunk, arama ne kadar iyi olursa olsun gürültü olarak geri döner. Kaynaklar da birbirinden farklı biçimlerde bozulan formatlarda geliyor. Tek bir hat ikisini de işliyor. Chunk sınırlarını, geri gelen parça tek başına okunabilsin diye seçiyorum.",
     tech: ["Python", "Belge ayrıştırma", "Chunking", "MongoDB"],
   },
   {
@@ -55,9 +55,9 @@ export const PRODUCTION_TR: Case[] = [
     category: "DEĞERLENDİRME",
     title: "Değerlendirme hatları ve geri besleme döngüleri",
     summary:
-      "Üretimdeki model davranışını sayısallaştıran değerlendirme hatları kurdum; her yineleme izlenime göre değil sayıya göre yargılanıyor.",
+      "Üretimdeki model davranışını sayıya döken değerlendirme hatları kurdum. Her yineleme izlenime göre değil, ölçüme göre yargılanıyor.",
     detail:
-      "Ölçüm olmadan bir prompt'u ya da retriever'ı değiştirmek tahmindir: üretimdeki davranış kayar ve kimse hangi yöne kaydığını söyleyemez. Döngü, üretimdeki etkileşimler bir değişikliğin yargılandığı kümeye geri beslendiğinde kapanıyor — yoksa değerlendirme yavaşça kullanıcıların gerçekten sorduğu şeye benzemeyi bırakıyor.",
+      "Ölçüm olmadan bir prompt'u ya da retriever'ı değiştirmek tahmin yürütmektir. Üretimdeki davranış kayar, kimse de hangi yöne kaydığını söyleyemez. Döngü ancak üretimdeki etkileşimler değerlendirme kümesine geri beslendiğinde kapanıyor. Yoksa değerlendirme zamanla kullanıcıların gerçekten sorduğu şeye benzemeyi bırakıyor.",
     tech: ["Python", "LLM evaluation", "Geri besleme döngüleri"],
   },
 ];
@@ -69,9 +69,9 @@ export const OPEN_TR: Case[] = [
     title: "churn-decisions — olasılık henüz bir karar değil",
     headline: { value: "947 / 431", caption: "aynı eşikte teklif gönderilen müşteri — AUC farkı 0.004 olan iki modelden" },
     summary:
-      "Bir churn modeli eğittim, olasılıklarının söylediği şeyi gerçekten ifade edip etmediğini kontrol ettim, sonra karar eşiğini 0.5 varsaymak yerine teklifin maliyetinden türettim.",
+      "Bir churn modeli eğittim. Olasılıkları gerçekten söyledikleri şeyi ifade ediyor mu diye baktım. Sonra karar eşiğini 0.5 kabul etmek yerine teklifin maliyetinden türettim.",
     detail:
-      "Sınıf ağırlıklandırma, dengesiz etiketlerde standart reflekstir. AUC'yi 0.004 oynattı ve tahmin edilen churn oranını %20.4'ten %34.1'e şişirdi — sıralama metrikleri bunu göremez, çünkü sıralama olasılıkların her monotonik bozulmasından sağ çıkar; sadece AUC raporlayan bir proje bu hatayı asla bulamaz. Bir karar kuralına verildiğinde o model iki katından fazla harcıyor. Eşiğin kendisi ise aritmetik: müdahale p·e·V > C olduğunda kârlı, yani başabaş olasılık C/(e·V) ve sınıflandırıcı bu formülde hiç geçmiyor. Türetilmiş hali 0.333, örneklemde en iyisi 0.300, ve 0.5 geleneği değerin %12'sini geride bırakıyor.",
+      "Sınıf ağırlıklandırma, dengesiz etiketlerde ilk akla gelen çözümdür. AUC'yi 0.004 oynattı, tahmin edilen churn oranını ise %20.4'ten %34.1'e çıkardı. Sıralama metrikleri bunu göremez, çünkü sıralama olasılıkların her monotonik bozulmasından sağ çıkar. Sadece AUC raporlayan bir proje bu hatayı hiç bulamaz. Bir karar kuralına verildiğinde aynı model iki katından fazla harcıyor. Eşiğin kendisi ise basit bir aritmetik. Müdahale p·e·V > C olduğunda kârlı, dolayısıyla başabaş olasılık C/(e·V). Sınıflandırıcı bu formülde hiç geçmiyor. Türetilmiş hali 0.333, örneklemde en iyi sonuç veren 0.300. 0.5 geleneği ise değerin %12'sini geride bırakıyor.",
     tech: ["Python", "scikit-learn", "Kalibrasyon", "Karar teorisi", "pandas", "NumPy"],
     live: "https://churn-decisions.berkaykoklu.com",
     code: "https://github.com/berkaykoklu/churn-decisions",
@@ -82,9 +82,9 @@ export const OPEN_TR: Case[] = [
     title: "experiment-audit — bir A/B testi neyi görebilirdi, neyi göremezdi",
     headline: { value: "0.59 / 0.93", caption: "ölçülen etki, bu örneklemin tespit edebileceği en küçük etkiye karşı" },
     summary:
-      "90.189 oyuncunun katıldığı gerçek bir mobil oyun deneyini denetledim: anlamlılık testi, bulabileceği etki büyüklükleri, ve panele sürekli bakmanın cevaba ne yapacağı.",
+      "90.189 oyuncunun katıldığı gerçek bir mobil oyun deneyini denetledim. Anlamlılık testi, deneyin bulabileceği etki büyüklükleri ve panele sürekli bakmanın cevaba ne yaptığı.",
     detail:
-      "Birinci gün tutunması 'anlamlı değil' çıktı, ki bu rutin olarak 'fark yok' diye okunur. 0.59 puan oynadı, ve bu örneklemin güvenilir şekilde tespit edebileceği en küçük etki 0.93 — deney söyleyemezdi, ki bu farklı bir iddia ve verinin desteklediği olan. Yedinci gün tutunması anlamlı, ama tespit tabanını 0.09 puanla geçiyor; tekrarlanmayı hak edecek kadar ince. Ayrıca peeking simülasyonundaki her deney bir A/A testi ve tek bakış nominal %5 hata oranını yeniden üretiyor — o kalibrasyon test paketinde bir test, çünkü tutmasaydı simülasyondan çıkan diğer her rakam çöp olurdu.",
+      "Birinci gün tutunması \"anlamlı değil\" çıktı. Bu genelde \"fark yok\" diye okunur. Oysa etki 0.59 puan, bu örneklemin güvenilir biçimde görebileceği en küçük etki ise 0.93. Yani deney söyleyemezdi. Bu farklı bir iddia ve verinin desteklediği de bu. Yedinci gün tutunması anlamlı çıkıyor ama tespit tabanını yalnızca 0.09 puanla geçiyor. Tekrarlanmayı hak edecek kadar ince bir fark. Peeking simülasyonundaki her deney de bir A/A testi ve tek bakış nominal %5 hata oranını yeniden üretiyor. O kalibrasyon test paketinde ayrı bir test olarak duruyor. Tutmasaydı simülasyondan çıkan bütün rakamlar çöp olurdu.",
     tech: ["Python", "NumPy", "pandas", "Hipotez testi", "Güç analizi", "Monte Carlo"],
     live: "https://experiment-audit.berkaykoklu.com",
     code: "https://github.com/berkaykoklu/experiment-audit",
@@ -95,9 +95,9 @@ export const OPEN_TR: Case[] = [
     title: "creative-eval — otomatik kalite filtreleri insanla aynı fikirde mi?",
     headline: { value: "5 satır", caption: "aritmetik, 600 MB'lık görü modelini yendi — sonra kontrol ikisini birden yendi" },
     summary:
-      "Altmış reklam görseli ürettim, dört yöntemle otomatik puanladım, altmışını da körlemesine kendim puanladım, ve ikisinin örtüşüp örtüşmediğini ölçtüm.",
+      "Altmış reklam görseli ürettim, dört yöntemle otomatik puanladım. Sonra altmışını da skorları görmeden kendim puanladım ve ikisinin örtüşüp örtüşmediğini ölçtüm.",
     detail:
-      "Eşikler herhangi bir insan puanı var olmadan önce kalibre edildi, yani bir sonuca doğru ayarlanamazlardı. En iyi gerçek filtre 0.59 sıra korelasyonuna ulaştı, CLIP 0.21'de kaldı. Sonra kontrol — aynı aritmetiğin, arkasında hiçbir gerekçe olmayan bir bölgede çalıştırılmış hali — 0.69 aldı; yani en iyi filtre reklam uygunluğunu değil görsel sakinliği ölçüyormuş ve alan gerekçesi sayılar geldikten sonra yazılmış. Bu, dipnot değil manşet olarak yayınlandı.",
+      "Eşikleri, ortada tek bir insan puanı yokken kalibre ettim. Böylece bir sonuca doğru ayarlanmaları mümkün değildi. En iyi gerçek filtre 0.59 sıra korelasyonuna ulaştı, CLIP 0.21'de kaldı. Sonra bir kontrol koydum: aynı aritmetiği, arkasında hiçbir gerekçe olmayan bir bölgede çalıştırdım. 0.69 aldı. Demek ki en iyi filtre reklam uygunluğunu değil, görselin sakinliğini ölçüyormuş. Alan gerekçesini de sayılar geldikten sonra yazmışım. Bunu dipnot değil, manşet olarak yayınladım.",
     tech: ["PyTorch", "Diffusers", "CLIP", "NumPy", "Next.js"],
     live: "https://creative-eval.berkaykoklu.com",
     code: "https://github.com/berkaykoklu/creative-eval",
@@ -108,9 +108,9 @@ export const OPEN_TR: Case[] = [
     title: "equity-research-agent — var olmayanı kaynak gösteremeyen notlar",
     headline: { value: "0", caption: "20 raporda yanlış bölüm; yerini aldığı regex sürümünde 20'de 14'tü" },
     summary:
-      "Bir hisse kodunu, her iddiasının arkasındaki dosya pasajını taşıyan ve her rakamı şirketin kendi beyan ettiği veriden okuyan bir araştırma notuna çeviren LangGraph ajanı.",
+      "Bir hisse kodunu araştırma notuna çeviren LangGraph ajanı. Her iddia arkasındaki dosya pasajını taşıyor, her rakam şirketin kendi beyan ettiği veriden okunuyor.",
     detail:
-      "Model hiçbir zaman bir sayı yazmıyor: bir metrik adı veriyor, kod o adı şirketin XBRL verisinde bulup gerçek etiketi, dönemi ve değeri iliştiriyor. Deterministik bir denetleyici — model yargılayan model değil — hem üretim anında hem CI kapısı olarak çalışıyor; kaynağı çözülemeyen bir iddia iki kez yeniden yazılıyor, sonra yayınlanmak yerine düşürülüyor. Bölüm sınırlarını model seçiyor, kesmeyi kod yapıyor — parser'ı 20'de 14'ten, yirmisinde de sıfır yanlışa taşıyan şey bu.",
+      "Model hiçbir zaman sayı yazmıyor. Bir metrik adı veriyor, kod o adı şirketin XBRL verisinde bulup gerçek etiketi, dönemi ve değeri iliştiriyor. Denetleyici deterministik, yani model yargılayan başka bir model değil. Hem üretim anında hem de CI kapısı olarak çalışıyor. Kaynağı çözülemeyen bir iddia iki kez yeniden yazılıyor, sonra yayınlanmak yerine düşürülüyor. Bölüm sınırlarını model seçiyor, kesme işini kod yapıyor. Parser'ı 20'de 14'ten yirmisinde de sıfır yanlışa taşıyan şey bu oldu.",
     tech: ["LangGraph", "Python", "pgvector", "FastAPI", "Opik"],
     live: "https://equity.berkaykoklu.com",
     code: "https://github.com/berkaykoklu/equity-research-agent",
@@ -134,7 +134,7 @@ export const JOBS_TR: Jobs = {
 
 export const RESEARCH_TR: ResearchNode[] = [
   { name: "Üretken modeller", what: "Tek bir cevap yerine bir dağılım öğrenmek.", why: "Örnekleyebildiğin bir model, alternatif isteyebileceğin bir modeldir." },
-  { name: "Diffusion", what: "Adım adım gürültü gidererek örnekleme.", why: "Kontrolün uygulanabileceği yer o adımlar — asıl açık kapı orası." },
+  { name: "Diffusion", what: "Adım adım gürültü gidererek örnekleme.", why: "Kontrolün uygulanabileceği yer o adımlar. Asıl açık kapı orası." },
   { name: "Zaman serisi", what: "Sıranın ve dinamiğin sinyali taşıdığı diziler.", why: "Bir yörünge bir dizidir; yapının üretim sırasında ayakta kalması gerekir." },
   { name: "Dünya modelleri", what: "İçinde plan yapılabilen öğrenilmiş bir simülatör.", why: "Simülatör yeterince iyiyse, planlama artık gerçek ortama ihtiyaç duymaz." },
   { name: "Offline RL", what: "Keşfetmek için hareket etmeden, kayıtlı veriden öğrenilen politikalar.", why: "Tam olarak öğrenmek için hareket etmenin pahalı ya da tehlikeli olduğu durum." },
@@ -143,22 +143,22 @@ export const RESEARCH_TR: ResearchNode[] = [
 
 export const PLATFORM_TR: PlatformPart[] = [
   { id: "data", name: "Veri", blurb: "Belgeler yapılı ve yapısız geliyor; ayrıştırma ve chunk'lama, retrieval kalitesini retrieval çalışmadan önce belirliyor.", tech: "Ayrıştırma, chunking, MongoDB", to: "Belge alımı" },
-  { id: "routing", name: "Yönlendirme", blurb: "Aramaya gerek var mı, ve hangi strateji soruya uyar. Son cevaba dair bir takip sorusu hiçbirine ihtiyaç duymaz.", tech: "Agentic RAG, query routing", to: "Nasıl arayacağına karar veren retriever" },
-  { id: "retrieval", name: "Retrieval", blurb: "Vektör, lexical ve graph retrieval — füzyonlanıp sıralanıyor, her biri diğerlerinin kaçırdığını yakalıyor.", tech: "Embedding, BM25, graph gezinme", to: "Nasıl arayacağına karar veren retriever" },
+  { id: "routing", name: "Yönlendirme", blurb: "Aramaya gerek var mı, hangi strateji soruya uyar. Son cevaba dair bir takip sorusu hiçbirine ihtiyaç duymaz.", tech: "Agentic RAG, query routing", to: "Nasıl arayacağına karar veren retriever" },
+  { id: "retrieval", name: "Retrieval", blurb: "Vektör, lexical ve graph retrieval birlikte çalışıp füzyonlanıyor. Her biri diğerlerinin kaçırdığını yakalıyor.", tech: "Embedding, BM25, graph gezinme", to: "Nasıl arayacağına karar veren retriever" },
   { id: "graph", name: "Bilgi grafı", blurb: "Corpus'tan çıkarılmış varlıklar ve ilişkiler; birkaç belgeye yayılan sorular tahmin edilmek yerine yürünüyor.", tech: "Varlık ve ilişki çıkarımı", to: "Cevabı birkaç belgeye yayılmış sorular" },
-  { id: "llm", name: "Üretim", blurb: "Model, getirilen pasajlardan ve o ana kadarki konuşmadan cevap veriyor — eldeki her şeyden değil.", tech: "LLM API'leri, prompt tasarımı", to: "Nasıl arayacağına karar veren retriever" },
+  { id: "llm", name: "Üretim", blurb: "Model yalnızca getirilen pasajlardan ve o ana kadarki konuşmadan cevap veriyor, eldeki her şeyden değil.", tech: "LLM API'leri, prompt tasarımı", to: "Nasıl arayacağına karar veren retriever" },
   { id: "guardrails", name: "Guardrail", blurb: "Güvensiz içerik ve kişisel veri, çıktı yolunda ve kuruluma göre belirlenen sınırlar altında yakalanıyor.", tech: "Moderasyon, PII tespiti", to: "Güvenlik kısıtları ve PII" },
-  { id: "orchestration", name: "Orkestrasyon", blurb: "Konuşma durumu ve tek bir soruyu cevaplayan çağrı dizisi — bir adımın yeniden çalışması gerektiği durumlar dahil.", tech: "Python, FastAPI", to: "Nasıl arayacağına karar veren retriever" },
+  { id: "orchestration", name: "Orkestrasyon", blurb: "Konuşma durumu ve tek bir soruyu cevaplayan çağrı dizisi. Bir adımın yeniden çalışması gereken durumlar dahil.", tech: "Python, FastAPI", to: "Nasıl arayacağına karar veren retriever" },
   { id: "evaluation", name: "Değerlendirme", blurb: "Ölçüm ve geri besleme döngüleri, böylece bir prompt ya da retriever değişikliği tahmin edilmek yerine yargılanıyor.", tech: "Eval hatları, geri besleme", to: "Değerlendirme hatları" },
 ];
 
 export const SYSTEM_TR: SystemStage[] = [
   { id: "user", name: "Kullanıcı", detail: "Bir soru geliyor; hangi tenant'a ait olduğu ve hangi dilde sorulduğu ile birlikte." },
-  { id: "intent", name: "Yönlendirme", detail: "Ne soruluyor, aramaya gerek var mı, ve hangi strateji uyuyor." },
-  { id: "retrieval", name: "Retrieval", detail: "Vektör, lexical ya da graph gezinme — füzyonlanıyor, sıralanıyor, bağlam yetersiz gelirse yeniden sorgulanıyor." },
+  { id: "intent", name: "Yönlendirme", detail: "Ne soruluyor, aramaya gerek var mı, hangi strateji uyuyor." },
+  { id: "retrieval", name: "Retrieval", detail: "Vektör, lexical ya da graph gezinme. Füzyonlanıp sıralanıyor, bağlam yetersiz gelirse yeniden sorgulanıyor." },
   { id: "llm", name: "Üretim", detail: "Model yalnızca getirilen pasajlardan cevap veriyor, başka hiçbir şeyden değil." },
   { id: "guardrail", name: "Guardrail", detail: "Çıktı, kimse görmeden güvensiz içerik ve kişisel veri açısından denetleniyor." },
-  { id: "response", name: "Cevap", detail: "Cevap dönüyor, ve alışveriş değerlendirme hattı için kaydediliyor." },
+  { id: "response", name: "Cevap", detail: "Cevap dönüyor ve etkileşim değerlendirme hattı için kaydediliyor." },
 ];
 
 export const STACK_TR: Tier[] = [

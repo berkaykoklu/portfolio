@@ -55,7 +55,7 @@ export const UI = {
     hero: {
       roleA: "AI Engineer",
       roleB: "ML Engineer",
-      lede: "Üretimde çalışan AI sistemleri kuruyorum, ve ajanların üretilmiş dünyalardan nasıl öğrendiğini araştırıyorum.",
+      lede: "Üretimde çalışan AI sistemleri kuruyorum. Ajanların üretilmiş dünyalardan nasıl öğrendiğini araştırıyorum.",
       viewWork: "Çalışmalara bak",
       facts: [
         { k: "AI ENGINEER", v: "Oca 2025'ten beri", sub: "Bizzbee — üretimde LLM sistemleri" },
@@ -65,24 +65,24 @@ export const UI = {
     },
     pipeline: { label: "ÜRETİM HATTI" },
     sections: {
-      platform: { title: "Ne inşa ediyorum", lead: "Tek bir üretim AI platformu, parça parça. Birine tıkla: ne yaptığını ve hangi vaka çalışmasına karşılık geldiğini gör." },
-      work: { title: "Üretim işleri", lead: "Bizzbee'de gerçek kullanıcılara hizmet veren sistemler. Önce diyagram; yöntem bir tık ötede." },
-      open: { title: "Açık kaynak", lead: "İş dışında yapıldı, yayına alındı, ölçüldü. Her biri bulduğunu yayınlıyor — sonuç aleyhime çıktığı yerler dahil." },
-      research: { title: "Bundan sonrası", lead: "Yüksek lisans tez yönüm ve oraya götüren iş zinciri. Erken araştırma — burada henüz sonuç yok." },
+      platform: { title: "Ne inşa ediyorum", lead: "Tek bir üretim platformunun parçaları. Birine tıkla, ne yaptığını ve hangi çalışmaya karşılık geldiğini gör." },
+      work: { title: "Üretim işleri", lead: "Bizzbee'de gerçek kullanıcılara hizmet veren sistemler. Önce diyagram, yöntem bir tık ötede." },
+      open: { title: "Açık kaynak", lead: "İş dışında yaptım, yayına aldım, ölçtüm. Her biri bulduğunu yayınlıyor, sonucun aleyhime çıktığı yerler dahil." },
+      research: { title: "Bundan sonrası", lead: "Yüksek lisans tez yönüm ve oraya götüren zincir. Henüz erken aşama, burada sonuç yok." },
       experience: { title: "Deneyim" },
       stack: { title: "Kullandıklarım" },
     },
     caseStudy: { show: "Teknik detayları gör", hide: "Teknik detayları gizle", open: "Aç", code: "Kod", live: "Canlı", production: "Üretim" },
     platformIdle: (n: number) => `Tek platformun ${n} parçası. Birini seç.`,
     noMetrics:
-      "Bu dört çalışmada performans rakamı yok. İş gizlilik kısıtları altında ve arkasında durabileceğim, yayınlanabilir bir sayıya dönüştürülmüş bir ölçüm yok. Ölçülmüş sonuçlar aşağıdaki açık kaynak işlerde — orada herkes yeniden üretebilir.",
+      "Bu dört çalışmada performans rakamı yok. İş gizlilik kısıtları altında ve arkasında durabileceğim, yayınlanabilir bir ölçüm elimde yok. Ölçülmüş sonuçlar aşağıdaki açık kaynak işlerde duruyor. Orada herkes yeniden üretebilir.",
     researchNote: {
       label: "AÇIK SORU",
-      body: "Makul yörüngeler üreten bir dünya modeli, bir politikanın gerçek ortamda hiç hareket etmeden eğitilip test edilmesini sağlar — ki bu, öğrenmek için hareket etmenin pahalı ya da tehlikeli olduğu yerlerde asıl önemli olan şeydir. Benim ilgilendiğim kısım kısıt: üretilmiş bir yörünge ancak gerçekten olabilecek bir şeyse işe yarar.",
+      body: "Makul yörüngeler üreten bir dünya modeli, bir politikayı gerçek ortamda hiç hareket etmeden eğitip test etmeyi mümkün kılar. Bu da öğrenmek için hareket etmenin pahalı ya da tehlikeli olduğu yerlerde asıl önemli olan şey. Beni ilgilendiren kısım kısıt. Üretilmiş bir yörünge, ancak gerçekten olabilecek bir şeyse işe yarar.",
       repo: "ts-worldmodel-lab — kıyaslama düzeneği",
     },
     experience: { earlier: (n: number) => `Önceki roller (${n})`, hideEarlier: "Önceki rolleri gizle" },
     contact: { title: "AI ekibi mi kuruyorsunuz?", lead: "AI engineering, ML engineering ve data science rollerine açığım." },
-    footer: { place: "İstanbul, Türkiye", note: "Buradaki her rakam, bağlantılı CV'de veya depoda doğrulanabilir." },
+    footer: { place: "İstanbul, Türkiye", note: "Buradaki her rakam CV'de ya da depoda doğrulanabilir." },
   },
 } as const;
