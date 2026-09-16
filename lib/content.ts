@@ -47,7 +47,7 @@ export const STACK: Tier[] = [
   {
     tier: "Data",
     weight: "secondary" as const,
-    items: ["pandas", "NumPy", "scikit-learn", "A/B testing", "Power analysis", "Calibration", "MongoDB"],
+    items: ["pandas", "NumPy", "scikit-learn", "Calibration", "MongoDB"],
   },
   {
     tier: "Infrastructure",

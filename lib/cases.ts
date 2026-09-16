@@ -85,19 +85,6 @@ export const OPEN_EN: Case[] = [
     code: "https://github.com/berkaykoklu/churn-decisions",
   },
   {
-    id: "experiment",
-    category: "EXPERIMENTATION / STATISTICS",
-    title: "experiment-audit — what an A/B test could and could not detect",
-    headline: { value: "0.59 / 0.93", caption: "effect measured against the smallest this sample could detect" },
-    summary:
-      "Audited a real mobile-game experiment with 90,189 players: the significance test, the effect sizes it was equipped to find, and what watching the dashboard would have done to the answer.",
-    detail:
-      "Day-one retention came back not significant, which is routinely read as no difference. It moved 0.59 percentage points, and the smallest effect the sample could reliably detect is 0.93 — the experiment could not tell, which is a different claim and the one the data supports. Week-one retention is significant but clears its detection floor by 0.09pp, thin enough to be worth replicating. Separately, every experiment in the peeking simulation is an A/A test with nothing to find, and a single look reproduces the nominal 5% error rate — that calibration is a test in the suite, because if it failed every other figure from the simulation would be worthless.",
-    tech: ["Python", "NumPy", "pandas", "Hypothesis testing", "Power analysis", "Monte Carlo"],
-    live: "https://experiment-audit.berkaykoklu.com",
-    code: "https://github.com/berkaykoklu/experiment-audit",
-  },
-  {
     id: "creative",
     category: "GENERATIVE AI / EVALUATION",
     title: "creative-eval — do automatic quality filters agree with a human?",

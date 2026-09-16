@@ -77,19 +77,6 @@ export const OPEN_TR: Case[] = [
     code: "https://github.com/berkaykoklu/churn-decisions",
   },
   {
-    id: "experiment",
-    category: "DENEY / İSTATİSTİK",
-    title: "experiment-audit — bir A/B testi neyi görebilirdi, neyi göremezdi",
-    headline: { value: "0.59 / 0.93", caption: "ölçülen etki, bu örneklemin tespit edebileceği en küçük etkiye karşı" },
-    summary:
-      "90.189 oyuncunun katıldığı gerçek bir mobil oyun deneyini denetledim. Anlamlılık testi, deneyin bulabileceği etki büyüklükleri ve panele sürekli bakmanın cevaba ne yaptığı.",
-    detail:
-      "Birinci gün tutunması \"anlamlı değil\" çıktı. Bu genelde \"fark yok\" diye okunur. Oysa etki 0.59 puan, bu örneklemin güvenilir biçimde görebileceği en küçük etki ise 0.93. Yani deney söyleyemezdi. Bu farklı bir iddia ve verinin desteklediği de bu. Yedinci gün tutunması anlamlı çıkıyor ama tespit tabanını yalnızca 0.09 puanla geçiyor. Tekrarlanmayı hak edecek kadar ince bir fark. Peeking simülasyonundaki her deney de bir A/A testi ve tek bakış nominal %5 hata oranını yeniden üretiyor. O kalibrasyon test paketinde ayrı bir test olarak duruyor. Tutmasaydı simülasyondan çıkan bütün rakamlar çöp olurdu.",
-    tech: ["Python", "NumPy", "pandas", "Hipotez testi", "Güç analizi", "Monte Carlo"],
-    live: "https://experiment-audit.berkaykoklu.com",
-    code: "https://github.com/berkaykoklu/experiment-audit",
-  },
-  {
     id: "creative",
     category: "ÜRETKEN AI / DEĞERLENDİRME",
     title: "creative-eval — otomatik kalite filtreleri insanla aynı fikirde mi?",
@@ -164,6 +151,6 @@ export const SYSTEM_TR: SystemStage[] = [
 export const STACK_TR: Tier[] = [
   { tier: "Çekirdek", weight: "primary", items: ["Python", "PyTorch", "FastAPI", "Docker", "SQL"] },
   { tier: "AI / ML", weight: "primary", items: ["Agentic RAG", "Graph RAG", "Hybrid retrieval", "Query routing", "Embeddings", "Transformers", "Diffusion", "Evaluation", "Offline RL"] },
-  { tier: "Veri", weight: "secondary", items: ["pandas", "NumPy", "scikit-learn", "A/B testing", "Güç analizi", "Kalibrasyon", "MongoDB"] },
+  { tier: "Veri", weight: "secondary", items: ["pandas", "NumPy", "scikit-learn", "Kalibrasyon", "MongoDB"] },
   { tier: "Altyapı", weight: "secondary", items: ["GitHub Actions", "Git", "LangChain", "Hugging Face"] },
 ];

@@ -58,24 +58,6 @@ function visualFor(id: string, locale: Locale): ReactNode {
           ]}
         />
       );
-    case "experiment":
-      return (
-        <Comparison
-          caption={tr
-            ? "KAÇ KEZ BAKILDIĞINA GÖRE, YANLIŞ SONUÇ GÖSTEREN A/A DENEYLERİNİN ORANI"
-            : "SHARE OF A/A EXPERIMENTS SHOWING A FALSE RESULT, BY HOW OFTEN THEY WERE CHECKED"}
-          scale={30}
-          reference={{ value: 5, label: tr ? "testin vaat ettiği hata oranı" : "the error rate the test promises" }}
-          decimals={1}
-          unit="%"
-          bars={[
-            { name: tr ? "Bir kez bakıldı" : "Checked once", value: 4.8, tone: "good" },
-            { name: tr ? "5 kez bakıldı" : "Checked 5 times", value: 14.1, tone: "bad" },
-            { name: tr ? "12 kez bakıldı" : "Checked 12 times", value: 20.2, tone: "bad" },
-            { name: tr ? "30 kez bakıldı" : "Checked 30 times", value: 28.0, tone: "bad" },
-          ]}
-        />
-      );
     case "creative":
       return (
         <Comparison
