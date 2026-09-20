@@ -31,26 +31,6 @@ export const PRODUCTION_TR: Case[] = [
     tech: ["Python", "Graph RAG", "Entity extraction", "Relation extraction", "Multi-hop retrieval"],
   },
   {
-    id: "safety",
-    category: "GÜVENLİK / GUARDRAIL",
-    title: "Model çıktısında güvenlik kısıtları ve PII anonimleştirme",
-    summary:
-      "Moderasyonu ve kişisel veri anonimleştirmesini çıktı yolunun kendisine koydum. Kısıtlar her kurulum için ayrı ayarlanabiliyor.",
-    detail:
-      "Müşteri kayıtlarına erişebilen bir model onları tekrarlar. Moderasyon tek bir sabit kural da olamaz, çünkü tenant'lar neyin söylenip saklanabileceği konusunda birbirinden ayrılıyor. Denetimleri çıktı yolunun yanına değil üstüne koydum. Böylece her cevap oradan geçiyor. Kısıtları kod yerine yapılandırmada tutmak da kuralı değiştirirken hatta dokunmamayı sağlıyor.",
-    tech: ["Python", "Moderasyon", "PII tespiti", "FastAPI"],
-  },
-  {
-    id: "ingestion",
-    category: "VERİ / ALIM",
-    title: "Belge alımı ve chunk'lama",
-    summary:
-      "Yapılı ve yapısız kaynaklar için alım ve chunk'lama hatları kurdum. Sınırları, geri gelen bağlam tutarlı kalsın diye seçtim.",
-    detail:
-      "Retrieval kalitesi, retrieval çalışmadan önce belirleniyor. Bir argümanın ortasından bölünen chunk, arama ne kadar iyi olursa olsun gürültü olarak geri döner. Kaynaklar da birbirinden farklı biçimlerde bozulan formatlarda geliyor. Tek bir hat ikisini de işliyor. Chunk sınırlarını, geri gelen parça tek başına okunabilsin diye seçiyorum.",
-    tech: ["Python", "Belge ayrıştırma", "Chunking", "MongoDB"],
-  },
-  {
     id: "evaluation",
     category: "DEĞERLENDİRME",
     title: "Değerlendirme hatları ve geri besleme döngüleri",
@@ -63,45 +43,6 @@ export const PRODUCTION_TR: Case[] = [
 ];
 
 export const OPEN_TR: Case[] = [
-  {
-    id: "churn",
-    category: "ML / KARAR SİSTEMLERİ",
-    title: "churn-decisions — olasılık henüz bir karar değil",
-    headline: { value: "947 / 431", caption: "aynı eşikte teklif gönderilen müşteri — AUC farkı 0.004 olan iki modelden" },
-    summary:
-      "Bir churn modeli eğittim. Olasılıkları gerçekten söyledikleri şeyi ifade ediyor mu diye baktım. Sonra karar eşiğini 0.5 kabul etmek yerine teklifin maliyetinden türettim.",
-    detail:
-      "Sınıf ağırlıklandırma, dengesiz etiketlerde ilk akla gelen çözümdür. AUC'yi 0.004 oynattı, tahmin edilen churn oranını ise %20.4'ten %34.1'e çıkardı. Sıralama metrikleri bunu göremez, çünkü sıralama olasılıkların her monotonik bozulmasından sağ çıkar. Sadece AUC raporlayan bir proje bu hatayı hiç bulamaz. Bir karar kuralına verildiğinde aynı model iki katından fazla harcıyor. Eşiğin kendisi ise basit bir aritmetik. Müdahale p·e·V > C olduğunda kârlı, dolayısıyla başabaş olasılık C/(e·V). Sınıflandırıcı bu formülde hiç geçmiyor. Türetilmiş hali 0.333, örneklemde en iyi sonuç veren 0.300. 0.5 geleneği ise değerin %12'sini geride bırakıyor.",
-    tech: ["Python", "scikit-learn", "Kalibrasyon", "Karar teorisi", "pandas", "NumPy"],
-    live: "https://churn-decisions.berkaykoklu.com",
-    code: "https://github.com/berkaykoklu/churn-decisions",
-  },
-  {
-    id: "creative",
-    category: "ÜRETKEN AI / DEĞERLENDİRME",
-    title: "creative-eval — otomatik kalite filtreleri insanla aynı fikirde mi?",
-    headline: { value: "5 satır", caption: "aritmetik, 600 MB'lık görü modelini yendi — sonra kontrol ikisini birden yendi" },
-    summary:
-      "Altmış reklam görseli ürettim, dört yöntemle otomatik puanladım. Sonra altmışını da skorları görmeden kendim puanladım ve ikisinin örtüşüp örtüşmediğini ölçtüm.",
-    detail:
-      "Eşikleri, ortada tek bir insan puanı yokken kalibre ettim. Böylece bir sonuca doğru ayarlanmaları mümkün değildi. En iyi gerçek filtre 0.59 sıra korelasyonuna ulaştı, CLIP 0.21'de kaldı. Sonra bir kontrol koydum: aynı aritmetiği, arkasında hiçbir gerekçe olmayan bir bölgede çalıştırdım. 0.69 aldı. Demek ki en iyi filtre reklam uygunluğunu değil, görselin sakinliğini ölçüyormuş. Alan gerekçesini de sayılar geldikten sonra yazmışım. Bunu dipnot değil, manşet olarak yayınladım.",
-    tech: ["PyTorch", "Diffusers", "CLIP", "NumPy", "Next.js"],
-    live: "https://creative-eval.berkaykoklu.com",
-    code: "https://github.com/berkaykoklu/creative-eval",
-  },
-  {
-    id: "equity",
-    category: "AJANLAR / RETRIEVAL",
-    title: "equity-research-agent — var olmayanı kaynak gösteremeyen notlar",
-    headline: { value: "0", caption: "20 raporda yanlış bölüm; yerini aldığı regex sürümünde 20'de 14'tü" },
-    summary:
-      "Bir hisse kodunu araştırma notuna çeviren LangGraph ajanı. Her iddia arkasındaki dosya pasajını taşıyor, her rakam şirketin kendi beyan ettiği veriden okunuyor.",
-    detail:
-      "Model hiçbir zaman sayı yazmıyor. Bir metrik adı veriyor, kod o adı şirketin XBRL verisinde bulup gerçek etiketi, dönemi ve değeri iliştiriyor. Denetleyici deterministik, yani model yargılayan başka bir model değil. Hem üretim anında hem de CI kapısı olarak çalışıyor. Kaynağı çözülemeyen bir iddia iki kez yeniden yazılıyor, sonra yayınlanmak yerine düşürülüyor. Bölüm sınırlarını model seçiyor, kesme işini kod yapıyor. Parser'ı 20'de 14'ten yirmisinde de sıfır yanlışa taşıyan şey bu oldu.",
-    tech: ["LangGraph", "Python", "pgvector", "FastAPI", "Opik"],
-    live: "https://equity.berkaykoklu.com",
-    code: "https://github.com/berkaykoklu/equity-research-agent",
-  },
 ];
 
 export const JOBS_TR: Jobs = {
@@ -150,7 +91,7 @@ export const SYSTEM_TR: SystemStage[] = [
 
 export const STACK_TR: Tier[] = [
   { tier: "Çekirdek", weight: "primary", items: ["Python", "PyTorch", "FastAPI", "Docker", "SQL"] },
-  { tier: "AI / ML", weight: "primary", items: ["Agentic RAG", "Graph RAG", "Hybrid retrieval", "Query routing", "Embeddings", "Transformers", "Diffusion", "Evaluation", "Offline RL"] },
-  { tier: "Veri", weight: "secondary", items: ["pandas", "NumPy", "scikit-learn", "Kalibrasyon", "MongoDB"] },
+  { tier: "AI / ML", weight: "primary", items: ["Agentic RAG", "Graph RAG", "Hybrid retrieval", "Query routing", "Embeddings", "Transformers", "Evaluation", "Pekiştirmeli öğrenme"] },
+  { tier: "Veri", weight: "secondary", items: ["pandas", "NumPy", "PyTorch", "MongoDB"] },
   { tier: "Altyapı", weight: "secondary", items: ["GitHub Actions", "Git", "LangChain", "Hugging Face"] },
 ];

@@ -42,12 +42,12 @@ export const STACK: Tier[] = [
   {
     tier: "AI / ML",
     weight: "primary" as const,
-    items: ["Agentic RAG", "Graph RAG", "Hybrid retrieval", "Query routing", "Embeddings", "Transformers", "Diffusion", "Evaluation", "Offline RL"],
+    items: ["Agentic RAG", "Graph RAG", "Hybrid retrieval", "Query routing", "Embeddings", "Transformers", "Evaluation", "Reinforcement learning"],
   },
   {
     tier: "Data",
     weight: "secondary" as const,
-    items: ["pandas", "NumPy", "scikit-learn", "Calibration", "MongoDB"],
+    items: ["pandas", "NumPy", "PyTorch", "MongoDB"],
   },
   {
     tier: "Infrastructure",

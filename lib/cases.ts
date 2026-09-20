@@ -39,26 +39,6 @@ export const PRODUCTION_EN: Case[] = [
     tech: ["Python", "Graph RAG", "Entity extraction", "Relation extraction", "Multi-hop retrieval"],
   },
   {
-    id: "safety",
-    category: "SAFETY / GUARDRAILS",
-    title: "Safety constraints and PII anonymisation on model output",
-    summary:
-      "Built moderation and personal-data anonymisation into the output path itself, with constraints configurable per deployment.",
-    detail:
-      "A model with access to customer records will repeat them. Moderation cannot be one fixed rule either, since tenants differ in what may be said and stored. Putting the checks on the output path — rather than beside it — means every answer travels through them, and making the constraints configuration rather than code means the rule changes without the pipeline changing.",
-    tech: ["Python", "Moderation", "PII detection", "FastAPI"],
-  },
-  {
-    id: "ingestion",
-    category: "DATA / INGESTION",
-    title: "Document ingestion and chunking",
-    summary:
-      "Built ingestion and chunking pipelines for structured and unstructured sources, shaping chunk boundaries so retrieved context stays coherent.",
-    detail:
-      "Retrieval quality is decided before retrieval runs. A chunk that splits mid-argument comes back as noise however good the search is, and sources arrive in formats that break differently. One path handles both, with boundaries chosen so what comes back is readable in isolation.",
-    tech: ["Python", "Document parsing", "Chunking", "MongoDB"],
-  },
-  {
     id: "evaluation",
     category: "EVALUATION",
     title: "Evaluation pipelines and feedback loops",
@@ -71,43 +51,4 @@ export const PRODUCTION_EN: Case[] = [
 ];
 
 export const OPEN_EN: Case[] = [
-  {
-    id: "churn",
-    category: "ML / DECISION SYSTEMS",
-    title: "churn-decisions — a probability is not yet a decision",
-    headline: { value: "947 vs 431", caption: "customers sent an offer at the same threshold — from models whose AUC differs by 0.004" },
-    summary:
-      "Trained a churn model, checked whether its probabilities mean what they say, then derived the decision threshold from what a retention offer costs rather than defaulting to 0.5.",
-    detail:
-      "Class weighting is the standard reflex for imbalanced labels. It moved AUC by 0.004 and inflated the predicted churn rate from 20.4% to 34.1% — ranking metrics cannot see this, because ranking survives any monotonic distortion of the probabilities, which is why a project reporting only AUC never finds it. Applied to a decision rule, that model spends more than twice as much. The threshold itself is arithmetic: treating a customer pays when p·e·V > C, so the break-even probability is C/(e·V) and the classifier appears nowhere in it. Derived it lands at 0.333, the empirical best is 0.300, and the 0.5 convention leaves 12% of the value behind.",
-    tech: ["Python", "scikit-learn", "Calibration", "Decision theory", "pandas", "NumPy"],
-    live: "https://churn-decisions.berkaykoklu.com",
-    code: "https://github.com/berkaykoklu/churn-decisions",
-  },
-  {
-    id: "creative",
-    category: "GENERATIVE AI / EVALUATION",
-    title: "creative-eval — do automatic quality filters agree with a human?",
-    headline: { value: "5 lines", caption: "of arithmetic beat a 600 MB vision model — then a control beat both" },
-    summary:
-      "Generated sixty ad creatives, scored them four ways automatically, rated all sixty blind, and measured whether the scores agree with the human.",
-    detail:
-      "Thresholds were calibrated before any rating existed, so they could not be tuned toward a result. The best real filter reached rank correlation 0.59 against CLIP's 0.21. Then a control — the identical arithmetic run on a region with no rationale behind it — scored 0.69, which means the best filter was measuring visual calmness rather than ad suitability, and the domain rationale was written after the numbers arrived. That is published as the headline on the project rather than a footnote.",
-    tech: ["PyTorch", "Diffusers", "CLIP", "NumPy", "Next.js"],
-    live: "https://creative-eval.berkaykoklu.com",
-    code: "https://github.com/berkaykoklu/creative-eval",
-  },
-  {
-    id: "equity",
-    category: "AGENTS / RETRIEVAL",
-    title: "equity-research-agent — notes that cannot cite what does not exist",
-    headline: { value: "0", caption: "wrong chapters across 20 filings, against 14 of 20 before" },
-    summary:
-      "A LangGraph agent that turns a ticker into a research note where every claim carries the filing passage behind it and every figure comes from the company's own filed data.",
-    detail:
-      "The model never writes a number: it names a metric, and code looks that name up in the company's XBRL data and attaches the real tag, period and value. A deterministic checker — not a model judging a model — runs at generation time and again as the CI gate; a claim whose citation does not resolve is rewritten twice and then dropped rather than shipped. Chapter boundaries are chosen by a model and cut by code, which is what took the parser from 14 of 20 to nothing wrong across all 20.",
-    tech: ["LangGraph", "Python", "pgvector", "FastAPI", "Opik"],
-    live: "https://equity.berkaykoklu.com",
-    code: "https://github.com/berkaykoklu/equity-research-agent",
-  },
 ];
