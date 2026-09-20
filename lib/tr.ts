@@ -43,6 +43,19 @@ export const PRODUCTION_TR: Case[] = [
 ];
 
 export const OPEN_TR: Case[] = [
+  {
+    id: "match3",
+    category: "PEKİŞTİRMELİ ÖĞRENME",
+    title: "Zorluk tek bir sayı değil",
+    headline: { value: "63 puan", caption: "dikkatli ve dikkatsiz oyuncu arasındaki en geniş fark" },
+    summary:
+      "Bir match-3 oyunu yazdım, üzerinde PPO ajanı eğittim ve her seviyenin ne kadar zor olduğunu ölçtüm. Cevap seviye başına bir sayı çıkmadı. Seviye ve oyuncu başına bir sayı çıktı.",
+    detail:
+      "Oyun şirketleri seviye zorluğunu bot oynatarak ayarlıyor. Sebebi basit: gerçek oyuncuyu beklemek, duvarı görmeden yayınlamak demek. Aynı kırk seviyeyi dört oyuncu oynadı. Rastgele oyuncu %49 geçti, PPO 200 bin adım sonra %56, iki milyon adım sonra %59, yirmi satırlık açgözlü kural ise %83. Son sayı daha iyi bir sonuca giriş değil, sonucun kendisi: PPO burada öğreniyor, uzun eğitim işe yarıyor, ve bir adım ileri bakan basit kural yine de önde. İşe yarayan ölçü ise dikkatsiz oyuncu ile dikkatli olan arasındaki fark oldu. En yüksek 63 puan, sekiz seviyede beş puanın altında. O sekiz seviye iki oyuncuyu birbirinden ayıramıyor. Sıçrama dedektörü de olmayan üç duvar buldu. Sebebi bir eğriyi altmış bölümle, diğerlerini iki yüzle ölçmemdi. Eşik artık her eğrinin arkasındaki bölüm sayısına göre değişiyor.",
+    tech: ["Python", "PyTorch", "PPO", "Gymnasium", "stable-baselines3", "Aksiyon maskeleme"],
+    live: "https://match3-rl.berkaykoklu.com",
+    code: "https://github.com/berkaykoklu/match3-rl",
+  },
 ];
 
 export const JOBS_TR: Jobs = {
