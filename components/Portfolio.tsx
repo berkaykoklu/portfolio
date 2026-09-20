@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { ArrowUpRight, FileText, Mail } from "lucide-react";
 import { GitHubMark, LinkedInMark } from "@/components/BrandIcons";
 import CaseStudy from "@/components/CaseStudy";
-import Creatives from "@/components/Creatives";
 import Experience from "@/components/Experience";
 import Field from "@/components/Field";
 import Hero from "@/components/Hero";
@@ -143,7 +142,6 @@ export default function Portfolio({ locale }: { locale: Locale }) {
       </Section>
 
       <Section id="open-source" accent="var(--color-sec-open)" {...ui.sections.open}>
-        <Reveal className="mb-10"><Creatives /></Reveal>
         <div className="space-y-4">{b.open.map(render)}</div>
       </Section>
 
