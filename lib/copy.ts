@@ -30,7 +30,7 @@ export const UI = {
       experience: { title: "Experience" },
       stack: { title: "Stack" },
     },
-    caseStudy: { show: "View technical details", hide: "Hide technical details", open: "Open it", code: "Code", live: "Live", production: "Production" },
+    caseStudy: { show: "View technical details", open: "Open it", code: "Code", live: "Live", production: "Production" },
     platformIdle: (n: number) => `${n} parts of one platform. Pick one.`,
     noMetrics:
       "No performance figures appear on these three. The work is under NDA-shaped constraints and nothing was measured into a number I can publish and stand behind. The measured results are in the open-source work below, where anyone can reproduce them.",
@@ -61,7 +61,7 @@ export const UI = {
       experience: { title: "Deneyim" },
       stack: { title: "Kullandıklarım" },
     },
-    caseStudy: { show: "Teknik detayları gör", hide: "Teknik detayları gizle", open: "Aç", code: "Kod", live: "Canlı", production: "Üretim" },
+    caseStudy: { show: "Teknik detayları gör", open: "Aç", code: "Kod", live: "Canlı", production: "Üretim" },
     platformIdle: (n: number) => `Tek platformun ${n} parçası. Birini seç.`,
     noMetrics:
       "Bu üç çalışmada performans rakamı yok. İş gizlilik kısıtları altında ve arkasında durabileceğim, yayınlanabilir bir ölçüm elimde yok. Ölçülmüş sonuçlar aşağıdaki açık kaynak işlerde duruyor. Orada herkes yeniden üretebilir.",

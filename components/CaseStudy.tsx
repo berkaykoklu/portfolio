@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
-import { AnimatePresence, animate, motion, useInView, useReducedMotion } from "motion/react";
+import { animate, useInView, useReducedMotion } from "motion/react";
+import Drawer from "@/components/Drawer";
 import { ArrowUpRight, Code2, Plus } from "lucide-react";
 
 export type Headline = { value: string; caption: string };
@@ -50,13 +51,13 @@ export default function CaseStudy({
   tech: string[];
   live?: string;
   code?: string;
-  t: { show: string; hide: string; open: string; code: string; live: string; production: string };
+  t: { show: string; open: string; code: string; live: string; production: string };
   flip?: boolean;
   /** Visual spans the full width under the text instead of beside it. */
   wide?: boolean;
 }) {
   const [open, setOpen] = useState(false);
-  const still = useReducedMotion();
+  const trigger = useRef<HTMLButtonElement>(null);
 
   return (
     <article className={`grid items-center gap-10 [&>*]:min-w-0 ${visual && !wide ? "lg:grid-cols-[0.8fr_1.2fr] lg:gap-14" : ""}`}>
@@ -84,33 +85,35 @@ export default function CaseStudy({
           ))}
         </div>
 
-        <AnimatePresence initial={false}>
-          {open && (
-            <motion.div
-              initial={still ? false : { height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1, transition: { duration: 0.32, ease: [0.23, 1, 0.32, 1] } }}
-              exit={still ? undefined : { height: 0, opacity: 0, transition: { duration: 0.2, ease: [0.23, 1, 0.32, 1] } }}
-              className="overflow-hidden"
-            >
-              <p className="mt-6 max-w-[62ch] border-l-2 border-brand pl-5 text-[0.95rem] leading-relaxed text-mid">
-                {detail}
-              </p>
-            </motion.div>
+        <Drawer open={open} onClose={() => setOpen(false)} title={title} returnFocus={trigger}>
+          <p className="mb-3 inline-flex rounded-full bg-brand-soft px-3 py-1 text-[0.8rem] font-semibold text-brand">{category}</p>
+          <p className="text-[1rem] leading-relaxed text-mid">{detail}</p>
+          <div className="mt-6 flex flex-wrap gap-1.5">
+            {tech.map((item) => (
+              <span key={item} className="rounded-full bg-raised px-2.5 py-1 font-mono text-[0.72rem] text-mid ring-1 ring-line">{item}</span>
+            ))}
+          </div>
+          {(live || code) && (
+            <div className="mt-7 flex flex-wrap gap-2">
+              {live && <a href={live} className="press rounded-full bg-brand px-4 py-2 text-[0.88rem] font-semibold text-white hover:bg-brand-lit">{t.open}</a>}
+              {code && <a href={code} className="press rounded-full px-4 py-2 text-[0.88rem] font-medium text-mid ring-1 ring-line hover:text-hi">{t.code}</a>}
+            </div>
           )}
-        </AnimatePresence>
+        </Drawer>
 
         <div className="mt-7 flex flex-wrap items-center gap-2">
           <button
+            ref={trigger}
             type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
+            onClick={() => setOpen(true)}
+            aria-haspopup="dialog"
             className="press group inline-flex items-center gap-2.5 rounded-full bg-panel py-1.5 pl-1.5 pr-4 text-[0.88rem] font-medium shadow-[0_0_0_1px_rgb(18_21_29/0.1)] hover:shadow-[0_0_0_1px_rgb(18_21_29/0.25)]"
           >
             <span className="flex h-7 w-7 items-center justify-center rounded-full bg-hi text-white">
               <Plus size={14} strokeWidth={2} aria-hidden="true"
-                    className={`transition-transform duration-300 ease-[var(--ease-out)] ${open ? "rotate-45" : ""}`} />
+                    className="transition-transform duration-300 ease-[var(--ease-out)] group-hover:rotate-90" />
             </span>
-            {open ? t.hide : t.show}
+            {t.show}
           </button>
 
           {live && (

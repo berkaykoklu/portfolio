@@ -58,7 +58,8 @@
 }
 
 @layer base {
-  html { color-scheme: light; scroll-behavior: smooth; }
+  /* Reserve the scrollbar, so locking scroll under a drawer does not shift the page. */
+  html { color-scheme: light; scroll-behavior: smooth; scrollbar-gutter: stable; }
 
   body {
     background: var(--color-base);
@@ -211,6 +212,16 @@
   from { stroke-dashoffset: 0.1; }
   to { stroke-dashoffset: -1; }
 }
+
+/* The newest line of the router's log, while it is still working. */
+@utility shimmer {
+  background: linear-gradient(90deg, var(--color-low) 0%, var(--color-hi) 50%, var(--color-low) 100%) 0 0 / 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 1.6s linear infinite;
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
 
 @utility marquee {
   animation: marquee 38s linear infinite;

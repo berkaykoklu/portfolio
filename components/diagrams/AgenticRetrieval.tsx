@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type CSSProperties } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
+import { statusLines } from "@/lib/motion/status";
 
 /** Why a router exists, shown rather than argued. Four questions, each one a
  *  different kind of failure for the other strategies: an identifier the
@@ -12,7 +13,7 @@ import { motion, useInView, useReducedMotion } from "motion/react";
  *  route loops back through the router before it answers. */
 type Route = "vector" | "lexical" | "graph" | "none";
 
-const CASES: { q: string; route: Route; reflect: boolean; why: string }[] = [
+export const CASES: { q: string; route: Route; reflect: boolean; why: string }[] = [
   {
     q: "where is order 84-5512?",
     route: "lexical",
@@ -66,7 +67,12 @@ function stepsFor(c: (typeof CASES)[number]): Step[] {
 const TYPE_MS = 26;
 const HOLD_MS = 3400;
 
-export default function AgenticRetrieval() {
+/** Uncontrolled, it cycles through the four questions on its own. Controlled
+ *  (`index` given), the reader drives it: the scroll story sets the question
+ *  and a chip click asks the story to scroll there. */
+export default function AgenticRetrieval({ index, onIndex }: { index?: number; onIndex?: (i: number) => void } = {}) {
+  const controlled = index !== undefined;
+  const chipId = useId();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.45 });
   const still = useReducedMotion();
@@ -89,6 +95,14 @@ export default function AgenticRetrieval() {
     setK(still ? stepsFor(CASES[idx]!).length : -1);
   }
 
+  // Reduced motion starts on a finished case; without this the first case,
+  // which no go() call ever sets up, would stay blank.
+  useEffect(() => { if (still) go(i); }, [still]);
+
+  useEffect(() => {
+    if (controlled && index !== i) go(index);
+  }, [controlled, index]);
+
   // Typing, then each step in turn, but only while the reader can see it.
   useEffect(() => {
     if (!inView || still) return;
@@ -104,11 +118,12 @@ export default function AgenticRetrieval() {
       const t = setTimeout(() => setK(k + 1), steps[k]!.dur * 1000 + 180);
       return () => clearTimeout(t);
     }
-    if (held) return;
+    if (held || controlled) return;
     const t = setTimeout(() => go((i + 1) % CASES.length), HOLD_MS);
     return () => clearTimeout(t);
-  }, [inView, still, k, typed, held, c.q.length, steps, i]);
+  }, [inView, still, k, typed, held, controlled, c.q.length, steps, i]);
 
+  const lines = statusLines(c.route, c.reflect, k, steps.length);
   const armLit = (id: Route) => k >= 0 && c.route === id;
   const gate =
     c.route === "none" || k < 1 ? "idle"
@@ -127,12 +142,13 @@ export default function AgenticRetrieval() {
                 key={x.q}
                 type="button"
                 aria-pressed={on}
-                onClick={() => { go(idx); setHeld(true); }}
+                data-chip={idx}
+                onClick={() => { if (controlled) onIndex?.(idx); else { go(idx); setHeld(true); } }}
                 className={`press relative rounded-full px-3 py-1.5 text-left font-mono text-[0.72rem] ${on ? "text-ink" : "text-mid hover:text-hi"}`}
               >
                 {on && (
                   <motion.span
-                    layoutId="agentic-chip"
+                    layoutId={`chip-${chipId}`}
                     className="absolute inset-0 rounded-full bg-white"
                     transition={{ type: "spring", duration: 0.45, bounce: 0.15 }}
                   />
@@ -141,19 +157,36 @@ export default function AgenticRetrieval() {
               </button>
             );
           })}
-          <button type="button" onClick={() => setHeld((v) => !v)} aria-pressed={held}
-                  className="press ml-auto rounded-full px-3 py-1.5 text-[0.72rem] font-medium text-mid ring-1 ring-line hover:text-hi">
-            {held ? "Play" : "Pause"}
-          </button>
+          {!controlled && (
+            <button type="button" onClick={() => setHeld((v) => !v)} aria-pressed={held}
+                    className="press ml-auto rounded-full px-3 py-1.5 text-[0.72rem] font-medium text-mid ring-1 ring-line hover:text-hi">
+              {held ? "Play" : "Pause"}
+            </button>
+          )}
         </div>
 
         {/* The query line: a terminal prompt with a caret while typing. */}
         <div className="mb-3 flex min-h-[2.6rem] items-center gap-3 rounded-xl bg-white/[0.04] px-4 font-mono text-[0.85rem] ring-1 ring-line">
           <span className="text-flow">user</span>
-          <span className="text-hi">
+          <span className="text-hi" data-query>
             {c.q.slice(0, typed)}
             {k === -1 && <span className="ml-0.5 inline-block h-[1.05em] w-[7px] translate-y-[2px] animate-pulse bg-flow" />}
           </span>
+        </div>
+
+        {/* What the router has decided so far; the newest line shimmers while it works. */}
+        <div className="mb-2 min-h-[4.6rem] space-y-0.5 px-1 font-mono text-[0.75rem]">
+          {lines.map((l, n) => (
+            <motion.p
+              key={`${i}-${n}`}
+              initial={still ? false : { opacity: 0, filter: "blur(4px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+              className={n === lines.length - 1 && !done && !still ? "shimmer" : "text-low"}
+            >
+              › {l}
+            </motion.p>
+          ))}
         </div>
 
         <div className="diagram-scroll">
@@ -249,15 +282,18 @@ export default function AgenticRetrieval() {
           </svg>
         </div>
 
-        <motion.p
-          key={`why-${i}-${done}`}
-          initial={still ? false : { opacity: 0, filter: "blur(4px)" }}
-          animate={{ opacity: done ? 1 : 0.35, filter: "blur(0px)" }}
-          transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-          className="mt-3 min-h-[3.4rem] max-w-[68ch] text-[0.9rem] leading-relaxed text-mid"
-        >
-          {done ? c.why : "Routing…"}
-        </motion.p>
+        {/* In the scroll story the reason sits in the text column beside it. */}
+        {!controlled && (
+          <motion.p
+            key={`why-${i}-${done}`}
+            initial={still ? false : { opacity: 0, filter: "blur(4px)" }}
+            animate={{ opacity: done ? 1 : 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+            className="mt-3 min-h-[3.4rem] max-w-[68ch] text-[0.9rem] leading-relaxed text-mid"
+          >
+            {c.why}
+          </motion.p>
+        )}
       </div>
     </div>
   );

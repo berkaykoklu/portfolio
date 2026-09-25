@@ -9,6 +9,7 @@ import Nav from "@/components/Nav";
 import Research from "@/components/Research";
 import Reveal from "@/components/Reveal";
 import Section from "@/components/Section";
+import RouterStory from "@/components/story/RouterStory";
 import AgenticRetrieval from "@/components/diagrams/AgenticRetrieval";
 import GraphHop from "@/components/diagrams/GraphHop";
 import EvalLoop from "@/components/diagrams/EvalLoop";
@@ -40,12 +41,11 @@ export default function Portfolio({ locale }: { locale: Locale }) {
   const b = bundle(locale);
   const { ui } = b;
 
-  const render = (item: Case, i: number) => (
-    <Reveal key={item.id}>
+  const caseStudy = (item: Case, i: number, visual: ReactNode) => (
       <CaseStudy
         category={item.category}
         title={item.title}
-        visual={visualFor(item.id)}
+        visual={visual}
         headline={item.headline}
         summary={item.summary}
         detail={item.detail}
@@ -56,6 +56,18 @@ export default function Portfolio({ locale }: { locale: Locale }) {
         flip={i % 2 === 1}
         wide={item.id === "evaluation"}
       />
+  );
+
+  // The router case is told as a scroll story on wide screens; phones keep the
+  // self-running diagram, since a pinned column has no room there.
+  const render = (item: Case, i: number) => (
+    <Reveal key={item.id}>
+      {item.id === "agentic" ? (
+        <>
+          <div className="hidden lg:block"><RouterStory intro={caseStudy(item, i, undefined)} /></div>
+          <div className="lg:hidden">{caseStudy(item, i, visualFor(item.id))}</div>
+        </>
+      ) : caseStudy(item, i, visualFor(item.id))}
     </Reveal>
   );
 
