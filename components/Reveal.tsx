@@ -3,10 +3,9 @@
 import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 
-/** Content arrives once, on first sight, and never moves again.
- *  A small rise is enough to draw the eye down the page; anything larger reads
- *  as the effect being the point. Honours the reduced-motion setting by
- *  rendering the final state directly rather than animating to it. */
+/** Content arrives once, on first sight: a heavy rise out of a slight blur,
+ *  then it never moves again. Reduced motion keeps the fade and drops the
+ *  movement. */
 export default function Reveal({
   children,
   delay = 0,
@@ -18,15 +17,13 @@ export default function Reveal({
 }) {
   const still = useReducedMotion();
 
-  if (still) return <div className={className}>{children}</div>;
-
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.45, delay, ease: [0.22, 0.61, 0.36, 1] }}
+      initial={still ? { opacity: 0 } : { opacity: 0, transform: "translateY(28px)", filter: "blur(8px)" }}
+      whileInView={still ? { opacity: 1 } : { opacity: 1, transform: "translateY(0px)", filter: "blur(0px)" }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.85, delay, ease: [0.23, 1, 0.32, 1] }}
     >
       {children}
     </motion.div>

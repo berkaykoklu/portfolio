@@ -1,70 +1,59 @@
+import type { CSSProperties } from "react";
 import { ArrowDown, Download } from "lucide-react";
-import SystemGraph from "./SystemGraph";
-import type { SystemStage } from "@/lib/content";
-import Reveal from "./Reveal";
-import { GitHubMark, LinkedInMark } from "./BrandIcons";
+import CardStack from "./CardStack";
 
-/** Descriptive where a number would have to be invented. "Since Jan 2025" is a
- *  date anyone can check against the CV; "2+ years" would be a claim that
- *  outruns it. */
+const d = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
+
+/** The name is the loud moment: each line rises out of its own mask. The card
+ *  stack beside it is three true facts a recruiter checks first, not
+ *  decoration, and each one links to the section that backs it up. */
 export default function Hero({
-  cv, github, linkedin, ui, system, pipelineLabel,
+  cv, ui,
 }: {
-  cv: string; github: string; linkedin: string;
-  ui: { roleA: string; roleB: string; lede: string; viewWork: string; facts: readonly { k: string; v: string; sub: string }[] };
-  system: SystemStage[];
-  pipelineLabel: string;
+  cv: string;
+  ui: { roleA: string; roleB: string; lede: string; viewWork: string };
 }) {
   return (
-    <header id="top" className="relative z-10">
-      <div className="mx-auto grid w-full max-w-[84rem] items-center gap-12 px-6 pb-20 pt-16 sm:pt-24 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16 lg:pb-28">
-        <Reveal>
-          <h1 className="display text-[clamp(3.4rem,10vw,7rem)]">
-            Berkay
-            <br />
-            Köklü
+    <header id="top" className="relative overflow-hidden">
+      {/* Ribbed light: vertical glass flutes over a cobalt glow, faded into
+          the page so it reads as light through a window, not a banner. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-0 [mask-image:linear-gradient(to_bottom,black_30%,transparent_95%)]">
+        <div className="absolute -right-[10%] -top-[20%] h-[90%] w-[75%] rounded-full bg-[radial-gradient(closest-side,rgb(47_75_255/0.55),rgb(142_160_255/0.25)_55%,transparent)] blur-2xl" />
+        <div className="absolute -left-[15%] top-[35%] h-[55%] w-[45%] rounded-full bg-[radial-gradient(closest-side,rgb(142_160_255/0.35),transparent)] blur-2xl" />
+        <div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,rgb(255_255_255/0)_0px,rgb(255_255_255/0.55)_18px,rgb(255_255_255/0)_36px)] mix-blend-soft-light" />
+      </div>
+
+      <div className="relative mx-auto grid min-h-[100dvh] w-full max-w-[84rem] items-center gap-14 px-6 pb-20 pt-32 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10">
+        <div>
+          <h1 className="display text-[clamp(4rem,13vw,10rem)] leading-[0.88]">
+            <span className="block overflow-hidden pb-[0.06em]"><span className="unmask" style={d(80)}>Berkay</span></span>
+            <span className="block overflow-hidden pb-[0.06em]"><span className="unmask" style={d(180)}>Köklü</span></span>
           </h1>
 
-          <p className="mt-6 flex flex-wrap items-center gap-x-4 text-[clamp(1.05rem,2.6vw,1.35rem)] font-semibold tracking-[-0.02em]">
-            <span className="text-brand">AI Engineer</span>
-            <span className="h-4 w-px bg-line-ctl" aria-hidden="true" />
-            <span className="text-flow">ML Engineer</span>
+          <p className="rise mt-7 text-[clamp(1.05rem,2.4vw,1.25rem)] font-semibold tracking-[-0.01em] text-brand" style={d(420)}>
+            {ui.roleA} / {ui.roleB}
           </p>
 
-          <p className="mt-7 max-w-[34ch] text-[clamp(1.25rem,3vw,1.7rem)] font-medium leading-[1.3] tracking-[-0.025em]">
-{ui.lede}
+          <p className="rise mt-4 max-w-[32ch] text-[clamp(1.2rem,2.6vw,1.6rem)] font-medium leading-[1.3] tracking-[-0.02em]" style={d(500)}>
+            {ui.lede}
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-3">
-            <a href="#work" className="inline-flex items-center gap-2 rounded-lg bg-brand px-5 py-3 text-[0.92rem] font-semibold text-[#060810] transition-colors hover:bg-brand-lit">
+          <div className="rise mt-10 flex flex-wrap gap-3" style={d(600)}>
+            <a href="#work" className="press group inline-flex items-center gap-3 rounded-full bg-hi py-2 pl-6 pr-2 text-[0.95rem] font-semibold text-white hover:bg-brand">
               {ui.viewWork}
-              <ArrowDown size={15} aria-hidden="true" />
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 ease-[var(--ease-out)] group-hover:translate-y-0.5">
+                <ArrowDown size={16} strokeWidth={1.75} aria-hidden="true" />
+              </span>
             </a>
-            <a href={github} className="inline-flex items-center gap-2 rounded-lg border border-line-ctl bg-lifted px-5 py-3 text-[0.92rem] font-medium transition-colors hover:bg-raised">
-              <GitHubMark />GitHub
-            </a>
-            <a href={linkedin} className="inline-flex items-center gap-2 rounded-lg border border-line-ctl bg-lifted px-5 py-3 text-[0.92rem] font-medium transition-colors hover:bg-raised">
-              <LinkedInMark />LinkedIn
-            </a>
-            <a href={cv} className="inline-flex items-center gap-2 rounded-lg border border-line-ctl bg-lifted px-5 py-3 text-[0.92rem] font-medium transition-colors hover:bg-raised">
-              <Download size={15} aria-hidden="true" />CV
+            <a href={cv} className="press inline-flex items-center gap-2 rounded-full bg-white/80 px-6 py-3 text-[0.95rem] font-medium shadow-[0_0_0_1px_rgb(18_21_29/0.1)] hover:bg-white">
+              <Download size={16} strokeWidth={1.75} aria-hidden="true" />CV
             </a>
           </div>
+        </div>
 
-          <dl className="mt-12 grid gap-x-8 gap-y-6 border-t border-line pt-8 sm:grid-cols-3">
-            {ui.facts.map((f) => (
-              <div key={f.k}>
-                <dt className="label">{f.k}</dt>
-                <dd className="mt-2 text-[clamp(1.1rem,2.4vw,1.4rem)] font-semibold tracking-[-0.03em]">{f.v}</dd>
-                <dd className="mt-0.5 text-[0.76rem] leading-snug text-low">{f.sub}</dd>
-              </div>
-            ))}
-          </dl>
-        </Reveal>
-
-        <Reveal delay={0.12}>
-          <SystemGraph nodes={system} label={pipelineLabel} />
-        </Reveal>
+        <div className="rise" style={d(350)}>
+          <CardStack />
+        </div>
       </div>
     </header>
   );

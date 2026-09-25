@@ -1,8 +1,6 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { FileText, Languages } from "lucide-react";
 
+/** A floating glass island rather than a bar glued to the top edge. */
 export default function Nav({
   cv, labels, switchTo, switchHref,
 }: {
@@ -13,60 +11,45 @@ export default function Nav({
   switchTo?: string;
   switchHref?: string;
 }) {
-  // The bar only earns a border once the page has moved under it.
-  const [moved, setMoved] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setMoved(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   const links = [
     { href: "#work", label: labels.work },
     { href: "#open-source", label: labels.open },
-    { href: "#experience", label: labels.experience },
     { href: "#research", label: labels.research },
+    { href: "#experience", label: labels.experience },
   ];
 
   return (
-    <nav
-      className={`sticky top-0 z-50 backdrop-blur-xl transition-colors duration-200 ${
-        moved ? "border-b border-line bg-base/80" : "border-b border-transparent"
-      }`}
-    >
-      <div className="mx-auto flex h-14 w-full max-w-[84rem] items-center justify-between gap-4 px-6">
-        <a href="#top" className="text-[0.92rem] font-semibold tracking-[-0.01em]">
+    <div className="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4">
+      <nav className="rise pointer-events-auto flex items-center gap-1 rounded-full bg-white/70 p-1.5 pl-5 shadow-[0_0_0_1px_rgb(18_21_29/0.07),0_12px_32px_-16px_rgb(47_75_255/0.35)] backdrop-blur-xl">
+        <a href="#top" className="mr-3 font-display text-[0.98rem] font-bold tracking-[-0.02em]">
           Berkay Köklü
         </a>
-        <div className="flex items-center gap-5">
-          {links.map((link) => (
-            <a key={link.href} href={link.href}
-               className="hidden text-[0.86rem] text-mid transition-colors hover:text-hi md:block">
-              {link.label}
-            </a>
-          ))}
-
-          {/* A plain link, not a toggle: each language is its own address, so a
-              reader can share the page they actually read. */}
-          {switchTo && switchHref && (
-            <a
-              href={switchHref}
-              hrefLang={switchHref === "/tr" ? "tr" : "en"}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-line-ctl bg-lifted px-3 py-1.5 text-[0.82rem] font-medium transition-colors hover:border-brand-deep hover:bg-raised"
-            >
-              <Languages size={13} aria-hidden="true" />
-              {switchTo}
-            </a>
-          )}
-
-          <a href={cv}
-             className="inline-flex items-center gap-1.5 rounded-lg border border-line-ctl bg-lifted px-3 py-1.5 text-[0.82rem] font-medium transition-colors hover:bg-raised">
-            <FileText size={13} aria-hidden="true" />
-            {labels.cv}
+        {links.map((link) => (
+          <a key={link.href} href={link.href}
+             className="press hidden rounded-full px-3.5 py-2 text-[0.86rem] text-mid hover:bg-black/[0.04] hover:text-hi md:block">
+            {link.label}
           </a>
-        </div>
-      </div>
-    </nav>
+        ))}
+
+        {/* A plain link, not a toggle: each language is its own address, so a
+            reader can share the page they actually read. */}
+        {switchTo && switchHref && (
+          <a
+            href={switchHref}
+            hrefLang={switchHref === "/tr" ? "tr" : "en"}
+            className="press inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[0.86rem] font-medium hover:bg-black/[0.04]"
+          >
+            <Languages size={14} strokeWidth={1.75} aria-hidden="true" />
+            {switchTo}
+          </a>
+        )}
+
+        <a href={cv}
+           className="press ml-1 inline-flex items-center gap-1.5 rounded-full bg-hi px-4 py-2 text-[0.86rem] font-medium text-white hover:bg-brand">
+          <FileText size={14} strokeWidth={1.75} aria-hidden="true" />
+          {labels.cv}
+        </a>
+      </nav>
+    </div>
   );
 }
