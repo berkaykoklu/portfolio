@@ -53,7 +53,7 @@ export const OPEN_TR: Case[] = [
     detail:
       "Oyun şirketleri seviye zorluğunu bot oynatarak ayarlıyor. Sebebi basit: gerçek oyuncuyu beklemek, duvarı görmeden yayınlamak demek. Aynı kırk seviyeyi dört oyuncu oynadı. Rastgele oyuncu %49 geçti, PPO 200 bin adım sonra %56, iki milyon adım sonra %59, yirmi satırlık açgözlü kural ise %83. Son sayı daha iyi bir sonuca giriş değil, sonucun kendisi: PPO burada öğreniyor, uzun eğitim işe yarıyor, ve bir adım ileri bakan basit kural yine de önde. İşe yarayan ölçü ise dikkatsiz oyuncu ile dikkatli olan arasındaki fark oldu. En yüksek 63 puan, sekiz seviyede beş puanın altında. O sekiz seviye iki oyuncuyu birbirinden ayıramıyor. Sıçrama dedektörü de olmayan üç duvar buldu. Sebebi bir eğriyi altmış bölümle, diğerlerini iki yüzle ölçmemdi. Eşik artık her eğrinin arkasındaki bölüm sayısına göre değişiyor.",
     tech: ["Python", "PyTorch", "PPO", "Gymnasium", "stable-baselines3", "Aksiyon maskeleme"],
-    live: "https://match3-rl.berkaykoklu.com",
+    live: "/projects/match3-rl",
     code: "https://github.com/berkaykoklu/match3-rl",
   },
 ];

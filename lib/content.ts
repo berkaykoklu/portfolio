@@ -33,6 +33,18 @@ export type Jobs = {
 
 export type Tier = { tier: string; weight: "primary" | "secondary"; items: string[] };
 
+/** Every project with its own page on this site. The nav's Projects menu is
+ *  built from this list, so adding a project page means adding one entry. */
+export type ProjectPage = { href: string; name: string; blurb: string };
+
+export const PROJECTS: ProjectPage[] = [
+  {
+    href: "/projects/match3-rl",
+    name: "match3-rl",
+    blurb: "A match-3 game, a PPO agent, and why level difficulty depends on who is playing.",
+  },
+];
+
 export const STACK: Tier[] = [
   {
     tier: "Core",

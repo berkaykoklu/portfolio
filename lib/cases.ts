@@ -61,7 +61,7 @@ export const OPEN_EN: Case[] = [
     detail:
       "Studios tune level difficulty by watching bots play, because waiting for real players means shipping the wall before you know it is there. Four players cleared the same forty levels: a random one at 49%, PPO at 56% after 200,000 steps and 59% after two million, and a twenty-line greedy rule at 83%. That last number is the honest result rather than a preamble to a better one -- PPO learns here, more training helps, and a myopic heuristic still wins. The useful measure turned out to be the spread between the careless player and the careful one, which peaks at 63 points and falls under five on eight levels: those levels cannot tell the two apart at all. The spike detector also found three walls that were not there, produced by measuring one curve with sixty episodes against the others' two hundred; the threshold now scales with the episode count behind each curve.",
     tech: ["Python", "PyTorch", "PPO", "Gymnasium", "stable-baselines3", "Action masking"],
-    live: "https://match3-rl.berkaykoklu.com",
+    live: "/projects/match3-rl",
     code: "https://github.com/berkaykoklu/match3-rl",
   },
 ];

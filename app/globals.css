@@ -37,6 +37,12 @@
   --color-block: #c2410c;
   --color-flag: #c2410c;
 
+  /* match3-rl players: one hue each, deep on the page, bright on screens. */
+  --color-random: #646c7d;
+  --color-short: #5b4ee0;
+  --color-agent: #2f4bff;
+  --color-greedy: #087482;
+
   --radius-panel: 20px;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -147,6 +153,11 @@
   --color-flow: #8ea0ff;
   --color-ok: #4ade80;
   --color-block: #fb923c;
+  --color-flag: #fb923c;
+  --color-random: #8f9acb;
+  --color-short: #8f82ff;
+  --color-agent: #8ea0ff;
+  --color-greedy: #4dd8e8;
   border-radius: 22px;
   color: var(--color-hi);
   background:
@@ -208,7 +219,51 @@
   to { transform: translateX(-50%); }
 }
 
+/* A match-3 tile that falls is mounted where it lands and animated back from
+   where it came, so one keyframe covers every distance. */
+@keyframes drop {
+  from { transform: translateY(var(--drop-from, 0px)); }
+  to   { transform: translateY(0); }
+}
+
+/* match3 replay effects. The aim ring pulses on the two tiles the agent
+   chose; shards fly out of each cleared tile along their own --sx/--sy; the
+   score rises and fades; a combo badge pops for chained matches. */
+.aim-ring {
+  border: 2px solid rgb(255 255 255 / 0.95);
+  box-shadow: 0 0 14px rgb(142 160 255 / 0.9), inset 0 0 10px rgb(142 160 255 / 0.5);
+  animation: aim 700ms var(--ease-in-out) infinite alternate;
+}
+@keyframes aim { from { transform: scale(0.94); opacity: 0.7; } to { transform: scale(1.04); opacity: 1; } }
+
+.shard {
+  transform: translate(-50%, -50%);
+  animation: shard 560ms var(--ease-out) forwards;
+}
+@keyframes shard {
+  to { transform: translate(calc(-50% + var(--sx)), calc(-50% + var(--sy))) scale(0.2); opacity: 0; }
+}
+
+.score-pop {
+  transform: translate(-50%, -50%);
+  animation: score-pop 640ms var(--ease-out) forwards;
+}
+@keyframes score-pop {
+  0% { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+  30% { transform: translate(-50%, -70%) scale(1.15); opacity: 1; }
+  100% { transform: translate(-50%, -170%) scale(1); opacity: 0; }
+}
+
+.combo {
+  transform: translateX(-50%);
+  animation: combo 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes combo { from { transform: translateX(-50%) scale(0.7); opacity: 0; } }
+
 @media (prefers-reduced-motion: reduce) {
+  /* The replay keeps its steps and drops the travel. */
+  .aim-ring { animation: none; }
+  @keyframes drop { from { transform: none; } to { transform: none; } }
   @keyframes rise { from { opacity: 0; } }
   @keyframes unmask { from { opacity: 0; } }
   .comet { display: none; }

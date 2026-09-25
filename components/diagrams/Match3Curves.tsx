@@ -2,7 +2,9 @@
 
 import { useRef, useState, type PointerEvent } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
-import { MATCH3 } from "@/lib/match3";
+import { results } from "@/lib/match3/results";
+
+const MATCH3 = results.solve_rate as Record<"random" | "agent_200k" | "agent" | "greedy", number[]>;
 
 /** The real clear-rate curves from match3-rl, drawn on arrival. The band
  *  between the careless (random) and careful (greedy) player is the skill
