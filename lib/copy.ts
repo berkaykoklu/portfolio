@@ -18,7 +18,10 @@ export const UI = {
     hero: {
       roleA: "AI Engineer",
       roleB: "ML Engineer",
-      lede: "I build production LLM systems at Bizzbee and research how agents learn from generated worlds at Boğaziçi.",
+      // The focus words rotate in the hero; each is a system named in the case studies.
+      ledeBefore: "I build",
+      focus: ["retrieval systems", "routing agents", "evaluation loops"],
+      ledeAfter: "at Bizzbee and research how agents learn from generated worlds at Boğaziçi.",
       viewWork: "View work",
     },
     pipeline: { label: "How a question gets answered" },
@@ -49,7 +52,9 @@ export const UI = {
     hero: {
       roleA: "AI Engineer",
       roleB: "ML Engineer",
-      lede: "Üretimde çalışan AI sistemleri kuruyorum. Ajanların üretilmiş dünyalardan nasıl öğrendiğini araştırıyorum.",
+      ledeBefore: "Bizzbee'de",
+      focus: ["retrieval sistemleri", "routing ajanları", "evaluation döngüleri"],
+      ledeAfter: "kuruyorum. Boğaziçi'nde ajanların üretilmiş dünyalardan nasıl öğrendiğini araştırıyorum.",
       viewWork: "Çalışmalara bak",
     },
     pipeline: { label: "Bir soru nasıl yanıtlanıyor" },

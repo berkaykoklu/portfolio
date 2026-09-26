@@ -1,4 +1,7 @@
-import type { CSSProperties, ReactNode } from "react";
+"use client";
+
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent, type ReactNode } from "react";
+import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 
 /** Three true facts, stacked like cards on a desk. Hovering (or tabbing into)
@@ -71,14 +74,60 @@ export default function CardStack() {
           className={`bezel ${c.z} fan:absolute fan:left-1/2 fan:top-1/2 fan:w-[21rem] fan:[transform:var(--rest)] fan:transition-transform fan:duration-700 fan:ease-[var(--ease-drawer)] fan:group-hover:[transform:var(--open)] fan:group-focus-within:[transform:var(--open)] motion-reduce:transition-none`}
           style={{ "--rest": c.rest, "--open": c.open } as CSSProperties}
         >
-          <a href={c.href} className={`group/card relative block rounded-[22px] p-6 ${c.className}`}>
+          <TiltCard href={c.href} className={c.className}>
             {c.children}
             <span className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-current/10 transition-transform duration-300 ease-[var(--ease-out)] group-hover/card:-translate-y-0.5 group-hover/card:translate-x-0.5">
               <ArrowUpRight size={15} strokeWidth={1.75} aria-hidden="true" />
             </span>
-          </a>
+          </TiltCard>
         </div>
       ))}
     </div>
+  );
+}
+
+/** A card that leans toward the pointer and catches a light where it points,
+ *  springing back when the pointer leaves. Only with a real hover pointer and
+ *  without reduced motion; on touch it is a plain link. The tilt sits on the
+ *  inner link, so the outer card keeps its CSS fan transform. */
+function TiltCard({ href, className, children }: { href: string; className: string; children: ReactNode }) {
+  const still = useReducedMotion();
+  const [fine, setFine] = useState(false);
+  useEffect(() => { setFine(matchMedia("(hover: hover) and (pointer: fine)").matches); }, []);
+  const on = fine && !still;
+
+  const rx = useSpring(0, { stiffness: 200, damping: 20 });
+  const ry = useSpring(0, { stiffness: 200, damping: 20 });
+  const mx = useMotionValue(50);
+  const my = useMotionValue(50);
+  const transform = useMotionTemplate`perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+  const light = useMotionTemplate`radial-gradient(240px circle at ${mx}% ${my}%, rgb(255 255 255 / 0.2), transparent 60%)`;
+  const box = useRef<HTMLAnchorElement>(null);
+
+  const move = (e: PointerEvent<HTMLAnchorElement>) => {
+    const r = box.current?.getBoundingClientRect();
+    if (!r) return;
+    const px = (e.clientX - r.left) / r.width;
+    const py = (e.clientY - r.top) / r.height;
+    ry.set((px - 0.5) * 12);
+    rx.set((0.5 - py) * 12);
+    mx.set(px * 100);
+    my.set(py * 100);
+  };
+  const leave = () => { rx.set(0); ry.set(0); };
+
+  return (
+    <motion.a
+      ref={box}
+      href={href}
+      data-card
+      onPointerMove={on ? move : undefined}
+      onPointerLeave={on ? leave : undefined}
+      style={on ? { transform } : undefined}
+      className={`group/card relative isolate block overflow-hidden rounded-[22px] p-6 ${className}`}
+    >
+      {on && <motion.span aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover/card:opacity-100" style={{ background: light }} />}
+      {children}
+    </motion.a>
   );
 }
